@@ -2,19 +2,20 @@ import { FC, useReducer, useState } from "react";
 
 import List from "@mui/material/List";
 
-import QuestionNameListItem from "./item/QuestionNameListItem";
+import QuestionFolder from "./item/QuestionFolder";
 import QuestionListItem from "./item/QuestionListItem";
 import BackButton from "../../ui/button/BackButton";
-import QuestionStore from "../../types/QuestionStoreType";
-import Question from "../../types/Question";
 import SaveDialog from "../../ui/dialog/SaveDialog";
+import QuestionListNameType from "../../types/QuestionListNameType";
 
-const QuestionListName: FC<{
-    questionsStore: QuestionStore;
-    openMainScreen: () => void;
-    createFolder: (newdata: string) => void;
-    addQuestion: (dataId: string) => (newData: string) => void;
-}> = ({ questionsStore, openMainScreen, createFolder, addQuestion }) => {
+const QuestionFolders: FC<QuestionListNameType> = ({
+    questionsStore,
+    openMainScreen,
+    createFolder,
+    deleteFolder,
+    addQuestion,
+    deleteQuestion,
+}) => {
     const [isQuestionsList, dispatch] = useReducer(
         (isQuestionsList) => !isQuestionsList,
         false
@@ -31,9 +32,12 @@ const QuestionListName: FC<{
                 <>
                     <List>
                         {questionsStore.map((data) => (
-                            <QuestionNameListItem
-                                data={data}
+                            <QuestionFolder
+                                id={data.id}
+                                name={data.name}
+                                deleteButton={data.id.length > 1}
                                 onClick={() => onClick(data.id)}
+                                deleteFolder={deleteFolder}
                                 key={data.id}
                             />
                         ))}
@@ -53,17 +57,24 @@ const QuestionListName: FC<{
                             .filter((data) => data.id === questionsId)[0]
                             .questions.map((question) => (
                                 <QuestionListItem
-                                    question={question}
-                                    key={question}
+                                    id={question.id}
+                                    question={question.question}
+                                    displayDeleteQuestion={
+                                        questionsId.length > 1
+                                    }
+                                    deleteQuestion={deleteQuestion(questionsId)}
+                                    key={question.id}
                                 />
                             ))}
                     </List>
 
-                    <SaveDialog
-                        title="質問を追加する"
-                        inputLabel="追加する質問を入力してください"
-                        save={addQuestion(questionsId)}
-                    />
+                    {questionsId.length > 1 && (
+                        <SaveDialog
+                            title="質問を追加する"
+                            inputLabel="追加する質問を入力してください"
+                            save={addQuestion(questionsId)}
+                        />
+                    )}
                     <BackButton onClick={dispatch} />
                 </>
             )}
@@ -71,4 +82,4 @@ const QuestionListName: FC<{
     );
 };
 
-export default QuestionListName;
+export default QuestionFolders;

@@ -1,6 +1,6 @@
-type Question={
+type Question = {
     id: string;
     name: string;
-    questions: string[];
-}
+    questions: { id: string; question: string }[];
+};
 export default Question;

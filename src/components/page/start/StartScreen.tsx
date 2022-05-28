@@ -26,7 +26,7 @@ const MyStyleButtonGroup = styled(ButtonGroup)({
 
 const StartScreen: FC<StartScreenType> = ({
     startButtonClick = () => undefined,
-    backButtonOnClick = () => undefined,
+    backButtonClick = () => undefined,
     saveQuestionSetting = () => undefined,
     questionsStore,
 }) => {
@@ -90,7 +90,7 @@ const StartScreen: FC<StartScreenType> = ({
             <MyStyleButtonGroup>
                 <Quadrangle
                     label="戻る"
-                    onClick={backButtonOnClick}
+                    onClick={backButtonClick}
                     style={{ height: "60px", width: "45vw" }}
                 />
                 <Button

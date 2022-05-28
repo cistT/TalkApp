@@ -1,6 +1,7 @@
 import { Button, Dialog, DialogActions, DialogTitle } from "@material-ui/core";
 import { DialogContent } from "@mui/material";
 import React, { FC, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 //エラー
 // react_devtools_backend.js:4026 Warning: findDOMNode is deprecated in StrictMode.
@@ -8,7 +9,7 @@ import React, { FC, useState } from "react";
 const SaveDialog: FC<{
     title?: string;
     inputLabel?: string;
-    save: (newdata: string) => void;
+    save: (newDataId: string, newdata: string) => void;
 }> = ({ title = "追加する", inputLabel = "", save }) => {
     const [open, setOpen] = useState(false);
 
@@ -24,7 +25,7 @@ const SaveDialog: FC<{
     const saveQuestionList = () => {
         if (folderName === "") return;
         setFolderName(() => "");
-        save(folderName);
+        save(uuidv4(), folderName);
     };
     return (
         <>

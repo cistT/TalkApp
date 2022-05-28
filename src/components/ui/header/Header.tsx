@@ -1,9 +1,15 @@
 import { FC } from "react";
 
 import { AppBar, Box, Button, Toolbar, Typography } from "@material-ui/core";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../../firebase";
+import SignOutButton from "../button/SignOutButton";
+import SignInButton from "../button/SignInButton";
 
 //タイトルを上のコンポーネントから持ってこれるようにする
 const Header: FC<{}> = () => {
+    const [user] = useAuthState(auth);
+
     return (
         <Box style={{ height: "60px" }} sx={{ flexGrow: 1 }} position="static">
             <AppBar>
@@ -11,7 +17,8 @@ const Header: FC<{}> = () => {
                     <Typography variant="h6" component="div">
                         Talk-App (α版)
                     </Typography>
-                    {/* <Button color="inherit">ログイン</Button> */}
+                    {/* {<img src={auth.currentUser?.photoURL ?? undefined} />} */}
+                    {user ? <SignOutButton /> : <SignInButton />}
                 </Toolbar>
             </AppBar>
         </Box>

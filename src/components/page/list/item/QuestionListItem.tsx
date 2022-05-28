@@ -1,21 +1,24 @@
 import { FC } from "react";
 
 import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
+import { Button } from "@material-ui/core";
 
 const QuestionListItem: FC<{
+    id: string;
     question: string;
-}> = ({ question }) => {
+    deleteQuestion: (questionId: string) => void;
+    displayDeleteQuestion?: boolean;
+}> = ({ id, question, deleteQuestion, displayDeleteQuestion = true }) => {
     return (
         <>
-            <ListItem>
-                <ListItemText style={{ width: "100vw" }}>
-                    {question}
-                </ListItemText>
-            </ListItem>
+            <div style={{ display: "flex", height: "60px" }}>
+                <ListItem style={{ width: "100vw" }}>{question}</ListItem>
+                {displayDeleteQuestion && (
+                    <Button onClick={() => deleteQuestion(id)}>削除</Button>
+                )}
+            </div>
+
             <Divider />
         </>
     );
