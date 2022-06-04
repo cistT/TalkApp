@@ -1,23 +1,23 @@
-import { CSSProperties, FC } from "react";
+import { FC } from "react";
 
 import { Button, styled } from "@material-ui/core";
+import ButtonType from "../../types/ButtonType";
 
 const MyStyleButton = styled(Button)({
     height: "60px",
     width: "60px",
 });
 
-const QuadrangleButton: FC<{
-    label?: string;
-    onClick?: () => void;
-    style?: CSSProperties;
-}> = ({ label = "", onClick = () => undefined, style }) => {
+const QuadrangleButton: FC<ButtonType> = ({
+    label = "",
+    onClick = () => undefined,
+    variant = "outlined",
+    style,
+}) => {
     return (
-        <>
-            <MyStyleButton style={style} variant="outlined" onClick={onClick}>
-                {label}
-            </MyStyleButton>
-        </>
+        <MyStyleButton style={style} variant={variant} onClick={onClick}>
+            {label}
+        </MyStyleButton>
     );
 };
 

@@ -1,7 +1,8 @@
 import { FC } from "react";
-import { UseFormRegisterReturn } from "react-hook-form";
 
 import { InputLabel, NativeSelect, styled } from "@material-ui/core";
+
+import SelectFormType from "../../types/SelectFormType";
 
 const MyStyleInputLabel = styled(InputLabel)({
     height: "30px",
@@ -17,12 +18,12 @@ const MyStyleNativeSelect = styled(NativeSelect)({
     marginBottom: "10px",
 });
 
-const SelectForm: FC<{
-    label?: string;
-    defaultValue?: string | undefined;
-    questions: { question: string; value: string | number }[];
-    register: UseFormRegisterReturn;
-}> = ({ label = "質問", defaultValue = undefined, questions, register }) => {
+const SelectForm: FC<SelectFormType> = ({
+    label = "質問",
+    defaultValue = undefined,
+    questions,
+    register,
+}) => {
     return (
         <>
             <MyStyleInputLabel variant="standard">{label}</MyStyleInputLabel>

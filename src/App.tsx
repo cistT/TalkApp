@@ -3,7 +3,6 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 
 import firebase from "firebase/compat/app";
 import { auth, db } from "./firebase";
-import { collection, getDocs } from "firebase/firestore";
 
 import Header from "./components/ui/header/Header";
 import MainScreen from "./components/page/index/MainScreen";
@@ -16,6 +15,10 @@ import FinishScreen from "./components/page/finish/FinishScreen";
 import QuestionScreen from "./components/page/question/QuestionScreen";
 import StartScreen from "./components/page/start/StartScreen";
 import { useAuthState } from "react-firebase-hooks/auth";
+import {
+    deleteFireStore,
+    setFireStore,
+} from "./components/functions/FireStoreOperate";
 
 const App: FC = () => {
     const [user] = useAuthState(auth);
@@ -83,23 +86,19 @@ const App: FC = () => {
         ]);
 
         user?.uid &&
-            db
-                .collection("folder")
-                .doc(newDataId)
-                .set({
-                    name: newData,
-                    folderId: newDataId,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    uid: user?.uid ?? null,
-                });
+            setFireStore("folder", newDataId, {
+                name: newData,
+                folderId: newDataId,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                uid: user.uid,
+            });
     };
 
     const deleteFolder = (folderId: string) => {
         setQuestionsStore((folder) =>
             folder.filter((data) => data.id !== folderId)
         );
-
-        db.collection("folder").doc(folderId).delete();
+        user?.uid && deleteFireStore("folder", folderId);
     };
 
     const addQuestion = (dataId: string) => {
@@ -120,13 +119,14 @@ const App: FC = () => {
             );
 
             user?.uid &&
-                db.collection("question").doc(newDataId).set({
+                setFireStore("question", newDataId, {
                     name: newData,
                     questionId: newDataId,
                     folderId: dataId,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    uid: user?.uid,
+                    uid: user.uid,
                 });
+
             return;
         };
     };
@@ -146,7 +146,7 @@ const App: FC = () => {
                     return question;
                 });
             });
-            user?.uid && db.collection("question").doc(questionId).delete();
+            user?.uid && deleteFireStore("question", questionId);
         };
     };
 

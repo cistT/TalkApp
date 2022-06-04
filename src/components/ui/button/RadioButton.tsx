@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { UseFormRegisterReturn } from "react-hook-form";
 
 import {
     FormControlLabel,
@@ -8,6 +7,7 @@ import {
     styled,
     Typography,
 } from "@material-ui/core";
+import RadioButtonType from "../../types/RadioButtonType";
 
 const MyStyleRadioGroup = styled(RadioGroup)({
     display: "flex",
@@ -15,12 +15,12 @@ const MyStyleRadioGroup = styled(RadioGroup)({
     height: "10vh",
 });
 
-const RadioButton: FC<{
-    questionTitle: string;
-    defaultValue: string | number;
-    select: { question: string; value: string | number }[];
-    register: UseFormRegisterReturn;
-}> = ({ questionTitle, defaultValue, select, register }) => {
+const RadioButton: FC<RadioButtonType> = ({
+    questionTitle,
+    defaultValue,
+    select,
+    register,
+}) => {
     return (
         <div style={{ margin: "10px 0" }}>
             <Typography variant="h5">{questionTitle}</Typography>

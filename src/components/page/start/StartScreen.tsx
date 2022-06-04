@@ -10,6 +10,8 @@ import SelectForm from "../../ui/form/SelectForm";
 import RadioButton from "../../ui/button/RadioButton";
 import Quadrangle from "../../ui/button/QuadrangleButton";
 
+import { selectQuestionNames } from "../../functions/StartScreen";
+
 type QuestionSetting = { question: string; value: string | number }[];
 
 const MyStyleForm = styled("form")({
@@ -36,12 +38,7 @@ const StartScreen: FC<StartScreenType> = ({
         startButtonClick();
     };
 
-    const selectQuestion: QuestionSetting = questionsStore
-        .filter((data) => data.questions.length > 0)
-        .map((data) => ({
-            question: data.name,
-            value: data.id,
-        }));
+    const selectQuestion = selectQuestionNames(questionsStore);
 
     const selectTimeLimit: QuestionSetting = [
         { question: "1分", value: 1 },

@@ -5,13 +5,9 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import BasicCardType from "../../types/BasicCardType";
 
-const BasicCard: FC<{
-    title?: string;
-    explanation?: string;
-    buttonLabel?: string;
-    onClick?: () => void;
-}> = ({
+const BasicCard: FC<BasicCardType> = ({
     title = "",
     explanation = "",
     buttonLabel = "見る",

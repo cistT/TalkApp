@@ -1,9 +1,9 @@
 import { FC } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Typography } from "@material-ui/core";
 
 import BasicCard from "../../ui/card/BasicCard";
-import { useNavigate } from "react-router-dom";
 
 const MainScreen: FC = () => {
     const navigate = useNavigate();
