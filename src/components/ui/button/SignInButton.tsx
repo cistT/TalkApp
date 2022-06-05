@@ -1,18 +1,16 @@
-import { Button } from "@mui/material";
 import { signInWithPopup } from "firebase/auth";
-import React from "react";
 import { auth, provider } from "../../../firebase";
+
+import { Button } from "@mui/material";
 
 const SignInButton = () => {
     const signInWithGoogle = () => {
         signInWithPopup(auth, provider);
     };
     return (
-        <div>
-            <Button color="inherit" onClick={signInWithGoogle}>
-                ログイン
-            </Button>
-        </div>
+        <Button color="inherit" onClick={signInWithGoogle}>
+            ログイン
+        </Button>
     );
 };
 
