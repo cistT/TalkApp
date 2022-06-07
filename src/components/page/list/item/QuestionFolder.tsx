@@ -5,13 +5,15 @@ import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import { Button } from "@material-ui/core";
 
-const QuestionFolder: FC<{
+type Props = {
     id: string;
     name: string;
     deleteButton?: boolean;
     deleteFolder: (folderId: string) => void;
     onClick?: () => void;
-}> = ({
+};
+
+const QuestionFolder: FC<Props> = ({
     name,
     id,
     deleteButton = true,

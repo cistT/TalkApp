@@ -14,10 +14,12 @@ const circleButtonStyle: CSSProperties = {
     width: "130px",
 };
 
-const FinishScreen: FC<{
+type Props = {
     oneMoreButtonClick: () => void;
     finishButtonClick: () => void;
-}> = ({ oneMoreButtonClick, finishButtonClick }) => {
+};
+
+const FinishScreen: FC<Props> = ({ oneMoreButtonClick, finishButtonClick }) => {
     return (
         <>
             <Typography

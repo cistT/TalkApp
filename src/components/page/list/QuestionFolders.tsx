@@ -6,9 +6,20 @@ import QuestionFolder from "./item/QuestionFolder";
 import QuestionListItem from "./item/QuestionListItem";
 import BackButton from "../../ui/button/BackButton";
 import SaveDialog from "../../ui/dialog/SaveDialog";
-import QuestionListNameType from "../../types/QuestionListNameType";
+import QuestionStore from "../../types/QuestionStoreType";
 
-const QuestionFolders: FC<QuestionListNameType> = ({
+type Props = {
+    questionsStore: QuestionStore;
+    openMainScreen: () => void;
+    createFolder: (newDataId: string, newdata: string) => void;
+    deleteFolder: (folderId: string) => void;
+    addQuestion: (
+        dataId: string
+    ) => (newDataId: string, newData: string) => void;
+    deleteQuestion: (folderId: string) => (questionId: string) => void;
+};
+
+const QuestionFolders: FC<Props> = ({
     questionsStore,
     openMainScreen,
     createFolder,

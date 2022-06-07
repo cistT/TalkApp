@@ -4,7 +4,7 @@ import { useTimer } from "react-timer-hook";
 import { ButtonGroup, styled, Typography } from "@material-ui/core";
 
 import CircleButton from "../../ui/button/CircleButton";
-import Quadrangle from "../../ui/button/QuadrangleButton";
+import CountButtonGroup from "../../ui/button/CountButtonGroup";
 
 const MyStyleTypoGraphyTitle = styled(Typography)({
     height: "5vh",
@@ -16,15 +16,7 @@ const MyStyleTypographyCountDown = styled(Typography)({
     textAlign: "center",
     marginBottom: "10px",
 });
-const CountDownButtonGroup = styled(ButtonGroup)({
-    height: "20vh",
-    display: "flex",
-    justifyContent: "center",
-});
-const QuadrangleStyle: CSSProperties = {
-    height: "15vh",
-    width: "33vw",
-};
+
 const CircleButtonStyle: CSSProperties = {
     height: "80px",
     width: "130px",
@@ -34,7 +26,11 @@ const MyStyleButtonGroup = styled(ButtonGroup)({
     justifyContent: "space-around",
 });
 
-const FreePlay: FC<{ endButtonClick: () => void }> = ({ endButtonClick }) => {
+type Props = {
+    endButtonClick: () => void;
+};
+
+const FreePlay: FC<Props> = ({ endButtonClick }) => {
     const time = new Date();
     time.setSeconds(time.getSeconds() + 60 * 5);
     const { seconds, minutes, pause, resume, restart } = useTimer({
@@ -64,23 +60,14 @@ const FreePlay: FC<{ endButtonClick: () => void }> = ({ endButtonClick }) => {
                 </span>
             </MyStyleTypographyCountDown>
 
-            <CountDownButtonGroup>
-                <Quadrangle
-                    label="再開する"
-                    onClick={resume}
-                    style={QuadrangleStyle}
-                />
-                <Quadrangle
-                    label="一時停止"
-                    onClick={pause}
-                    style={QuadrangleStyle}
-                />
-                <Quadrangle
-                    label="リスタート"
-                    onClick={() => restart(time)}
-                    style={QuadrangleStyle}
-                />
-            </CountDownButtonGroup>
+            <CountButtonGroup
+                buttons={[
+                    { label: "再開する", onClick: resume },
+                    { label: "一時停止", onClick: pause },
+                    { label: "リスタート", onClick: () => restart(time) },
+                ]}
+            />
+
             <MyStyleButtonGroup>
                 <CircleButton
                     label="終了する"

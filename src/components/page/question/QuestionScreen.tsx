@@ -3,11 +3,8 @@ import { useTimer } from "react-timer-hook";
 
 import { ButtonGroup, styled, Typography } from "@material-ui/core";
 
-import QuestionScreenType from "../../types/QuestionScreenType";
-
 import CircleButton from "../../ui/button/CircleButton";
 import Quadrangle from "../../ui/button/QuadrangleButton";
-import { useNavigate } from "react-router-dom";
 
 const MyStyleTypoGraphyTitle = styled(Typography)({
     height: "5vh",
@@ -44,7 +41,14 @@ const MyStyleButtonGroup = styled(ButtonGroup)({
     justifyContent: "space-around",
 });
 
-const QuestionScreen: FC<QuestionScreenType> = ({
+type Props = {
+    question: string[];
+    timeLime?: number;
+    endButtonClick: () => void;
+    finishButttonClick: () => void;
+};
+
+const QuestionScreen: FC<Props> = ({
     question,
     timeLime = 5,
     endButtonClick,
@@ -60,7 +64,6 @@ const QuestionScreen: FC<QuestionScreenType> = ({
         (nowQuestion) => nowQuestion + 1,
         0
     );
-    const navigate = useNavigate();
 
     return (
         <>

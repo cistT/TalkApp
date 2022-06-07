@@ -1,20 +1,22 @@
 import { FC, useEffect, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 
+import { useAuthState } from "react-firebase-hooks/auth";
 import firebase from "firebase/compat/app";
 import { auth, db } from "./firebase";
 
 import Header from "./components/ui/header/Header";
 import MainScreen from "./components/page/index/MainScreen";
-import QuestionSettingType from "./components/types/QuestionSettingType";
-import shuffleArray from "./components/functions/ShuffleArray";
-import QuestionStore from "./components/types/QuestionStoreType";
-import QuestionFolders from "./components/page/list/QuestionFolders";
-import FreePlay from "./components/page/free/FreePlay";
-import FinishScreen from "./components/page/finish/FinishScreen";
-import QuestionScreen from "./components/page/question/QuestionScreen";
 import StartScreen from "./components/page/start/StartScreen";
-import { useAuthState } from "react-firebase-hooks/auth";
+import QuestionScreen from "./components/page/question/QuestionScreen";
+import FinishScreen from "./components/page/finish/FinishScreen";
+import FreePlay from "./components/page/free/FreePlay";
+import QuestionFolders from "./components/page/list/QuestionFolders";
+
+import QuestionSettingType from "./components/types/QuestionSettingType";
+import QuestionStore from "./components/types/QuestionStoreType";
+
+import shuffleArray from "./components/functions/ShuffleArray";
 import {
     deleteFireStore,
     setFireStore,
@@ -73,11 +75,14 @@ const App: FC = () => {
 
         return array;
     };
+
     const navigate = useNavigate();
     const openMainScreen = () => navigate("/");
     const openStartScreen = () => navigate("/start");
     const openQuestionScreen = () => navigate("/question");
     const openFinishScreen = () => navigate("/finish");
+    const openFreePlay = () => navigate("/free");
+    const openQuestionList = () => navigate("/list");
 
     const createFolder = (newDataId: string, newData: string) => {
         setQuestionsStore((folder) => [
@@ -174,6 +179,7 @@ const App: FC = () => {
                         })),
                     ]);
                 });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
 
     useEffect(() => {
@@ -207,9 +213,36 @@ const App: FC = () => {
 
     return (
         <>
-            <Header />
+            <Header title="Talk-App (α版)" />
             <Routes>
-                <Route index element={<MainScreen />} />
+                <Route
+                    index
+                    element={
+                        <MainScreen
+                            cards={[
+                                {
+                                    title: "開始する",
+                                    explanation: "質問の設定画面が出ます",
+                                    buttonLabel: "スタート",
+                                    onClick: openStartScreen,
+                                },
+                                {
+                                    title: "Free Play",
+                                    explanation:
+                                        "自由に質問を作ることができます",
+                                    buttonLabel: "Let's Go",
+                                    onClick: openFreePlay,
+                                },
+                                {
+                                    title: "質問リスト",
+                                    explanation: "質問一覧を見ることができます",
+                                    buttonLabel: "質問リストへ",
+                                    onClick: openQuestionList,
+                                },
+                            ]}
+                        />
+                    }
+                />
                 <Route
                     path="/start"
                     element={

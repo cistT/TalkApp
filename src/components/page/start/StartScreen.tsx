@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 
 import { Button, ButtonGroup, styled } from "@material-ui/core";
 
-import StartScreenType from "../../types/StartScreenType";
 import QuestionSettingType from "../../types/QuestionSettingType";
 
 import SelectForm from "../../ui/form/SelectForm";
@@ -11,12 +10,10 @@ import RadioButton from "../../ui/button/RadioButton";
 import Quadrangle from "../../ui/button/QuadrangleButton";
 
 import { selectQuestionNames } from "../../functions/StartScreen";
-
-type QuestionSetting = { question: string; value: string | number }[];
+import QuestionStore from "../../types/QuestionStoreType";
 
 const MyStyleForm = styled("form")({
     textAlign: "center",
-    fontFamily: "Roboto",
     justifyContent: "center",
 });
 
@@ -26,7 +23,20 @@ const MyStyleButtonGroup = styled(ButtonGroup)({
     justifyContent: "center",
 });
 
-const StartScreen: FC<StartScreenType> = ({
+type QuestionSetting = { question: string; value: string | number }[];
+type Props = {
+    startButtonClick?: () => void;
+    backButtonClick?: () => void;
+    saveQuestionSetting?: (data: {
+        target: string;
+        order: number;
+        timeLimit: number;
+        number: number;
+    }) => void;
+    questionsStore: QuestionStore;
+};
+
+const StartScreen: FC<Props> = ({
     startButtonClick = () => undefined,
     backButtonClick = () => undefined,
     saveQuestionSetting = () => undefined,

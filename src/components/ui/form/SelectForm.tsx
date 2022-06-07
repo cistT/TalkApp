@@ -9,7 +9,6 @@ const MyStyleInputLabel = styled(InputLabel)({
     marginTop: "10px",
     fontSize: "20px",
     color: "black",
-    fontFamily: "Roboto",
 });
 
 const MyStyleNativeSelect = styled(NativeSelect)({
@@ -29,11 +28,7 @@ const SelectForm: FC<SelectFormType> = ({
             <MyStyleInputLabel variant="standard">{label}</MyStyleInputLabel>
             <MyStyleNativeSelect defaultValue={defaultValue} {...register}>
                 {questions.map((question) => (
-                    <option
-                        key={question.question}
-                        value={question.value}
-                        style={{ textAlign: "center" }}
-                    >
+                    <option key={question.question} value={question.value}>
                         {question.question}
                     </option>
                 ))}
