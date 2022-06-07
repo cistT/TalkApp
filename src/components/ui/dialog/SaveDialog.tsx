@@ -1,16 +1,21 @@
-import { Button, Dialog, DialogActions, DialogTitle } from "@material-ui/core";
-import { DialogContent } from "@mui/material";
-import React, { FC, useState } from "react";
+import { FC, useRef, useState } from "react";
+
 import { v4 as uuidv4 } from "uuid";
 
-//エラー
-// react_devtools_backend.js:4026 Warning: findDOMNode is deprecated in StrictMode.
+import { Button, Dialog, DialogActions, DialogTitle } from "@material-ui/core";
+import { DialogContent } from "@mui/material";
 
-const SaveDialog: FC<{
+type Props = {
     title?: string;
     inputLabel?: string;
     save: (newDataId: string, newdata: string) => void;
-}> = ({ title = "追加する", inputLabel = "", save }) => {
+};
+
+const SaveDialog: FC<Props> = ({
+    title = "追加する",
+    inputLabel = "",
+    save,
+}) => {
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
@@ -20,12 +25,14 @@ const SaveDialog: FC<{
     const handleClose = () => {
         setOpen(false);
     };
+    const inputRef = useRef<HTMLInputElement>(null);
 
-    const [folderName, setFolderName] = useState("");
     const saveQuestionList = () => {
-        if (folderName === "") return;
-        setFolderName(() => "");
-        save(uuidv4(), folderName);
+        if (inputRef.current !== null) {
+            if (inputRef.current.value === "") return;
+            save(uuidv4(), inputRef.current.value);
+            inputRef.current.value = "";
+        }
     };
     return (
         <>
@@ -41,8 +48,7 @@ const SaveDialog: FC<{
                 <DialogContent>
                     <div>{inputLabel}</div>
                     <input
-                        value={folderName}
-                        onChange={(e) => setFolderName(e.target.value)}
+                        ref={inputRef}
                         style={{
                             width: "100%",
                             height: "40px",
