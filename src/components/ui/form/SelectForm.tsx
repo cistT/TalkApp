@@ -1,21 +1,10 @@
 import { FC } from "react";
 
-import { InputLabel, NativeSelect, styled } from "@material-ui/core";
+import { css } from "@emotion/react";
+
+import { InputLabel, NativeSelect } from "@material-ui/core";
 
 import SelectFormType from "../../types/SelectFormType";
-
-const MyStyleInputLabel = styled(InputLabel)({
-    height: "30px",
-    marginTop: "10px",
-    fontSize: "20px",
-    color: "black",
-});
-
-const MyStyleNativeSelect = styled(NativeSelect)({
-    height: "50px",
-    width: "90vw",
-    marginBottom: "10px",
-});
 
 const SelectForm: FC<SelectFormType> = ({
     label = "質問",
@@ -25,16 +14,37 @@ const SelectForm: FC<SelectFormType> = ({
 }) => {
     return (
         <>
-            <MyStyleInputLabel variant="standard">{label}</MyStyleInputLabel>
-            <MyStyleNativeSelect defaultValue={defaultValue} {...register}>
+            <InputLabel css={styles.label} variant="standard">
+                {label}
+            </InputLabel>
+            <NativeSelect
+                css={styles.select}
+                defaultValue={defaultValue}
+                {...register}
+            >
                 {questions.map((question) => (
                     <option key={question.question} value={question.value}>
                         {question.question}
                     </option>
                 ))}
-            </MyStyleNativeSelect>
+            </NativeSelect>
         </>
     );
+};
+
+const styles = {
+    label: css`
+        height: 30px;
+        margin-top: 10px;
+        font-size: 20px;
+        color: black;
+        font-family: "Kosugi Maru", sans-serif;
+    `,
+    select: css`
+        height: 50px;
+        width: 90vw;
+        margin-bottom: 10px;
+    `,
 };
 
 export default SelectForm;
