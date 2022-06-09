@@ -1,7 +1,9 @@
 import { FC } from "react";
 import { useForm } from "react-hook-form";
 
-import { Button, ButtonGroup, styled } from "@material-ui/core";
+import { css } from "@emotion/react";
+
+import { Button, ButtonGroup } from "@material-ui/core";
 
 import QuestionSettingType from "../../types/QuestionSettingType";
 
@@ -11,17 +13,6 @@ import Quadrangle from "../../ui/button/QuadrangleButton";
 
 import { selectQuestionNames } from "../../functions/StartScreen";
 import QuestionStore from "../../types/QuestionStoreType";
-
-const MyStyleForm = styled("form")({
-    textAlign: "center",
-    justifyContent: "center",
-});
-
-const MyStyleButtonGroup = styled(ButtonGroup)({
-    textAlign: "center",
-    display: "flex",
-    justifyContent: "center",
-});
 
 type QuestionSetting = { question: string; value: string | number }[];
 type Props = {
@@ -68,7 +59,7 @@ const StartScreen: FC<Props> = ({
     ];
 
     return (
-        <MyStyleForm onSubmit={handleSubmit(onSubmit)}>
+        <form css={styles.form} onSubmit={handleSubmit(onSubmit)}>
             <SelectForm
                 label="質問の対象"
                 questions={selectQuestion}
@@ -94,22 +85,38 @@ const StartScreen: FC<Props> = ({
                 register={register("number")}
             />
 
-            <MyStyleButtonGroup>
+            <ButtonGroup css={styles.buttonGroup}>
                 <Quadrangle
+                    emotion={styles.quadrangle}
                     label="戻る"
                     onClick={backButtonClick}
-                    style={{ height: "60px", width: "45vw" }}
                 />
-                <Button
-                    style={{ height: "60px", width: "45vw" }}
-                    variant="outlined"
-                    type="submit"
-                >
+                <Button css={styles.button} variant="outlined" type="submit">
                     スタート
                 </Button>
-            </MyStyleButtonGroup>
-        </MyStyleForm>
+            </ButtonGroup>
+        </form>
     );
 };
 
 export default StartScreen;
+
+const styles = {
+    quadrangle: css`
+        height: 60px;
+        width: 45vw;
+    `,
+    button: css`
+        height: 60px;
+        width: 45vw;
+    `,
+    form: css`
+        text-align: center;
+        justify-content: center;
+    `,
+    buttonGroup: css`
+        text-align: center;
+        display: flex;
+        justify-content: center;
+    `,
+};
