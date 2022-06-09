@@ -1,19 +1,15 @@
 import { FC } from "react";
 
+import { css } from "@emotion/react";
+
 import {
     FormControlLabel,
     Radio,
     RadioGroup,
-    styled,
     Typography,
 } from "@material-ui/core";
-import RadioButtonType from "../../types/RadioButtonType";
 
-const MyStyleRadioGroup = styled(RadioGroup)({
-    display: "flex",
-    justifyContent: "center",
-    height: "10vh",
-});
+import RadioButtonType from "../../types/RadioButtonType";
 
 const RadioButton: FC<RadioButtonType> = ({
     questionTitle,
@@ -22,21 +18,39 @@ const RadioButton: FC<RadioButtonType> = ({
     register,
 }) => {
     return (
-        <div style={{ margin: "10px 0" }}>
+        <div css={styles.area}>
             <Typography variant="h5">{questionTitle}</Typography>
-            <MyStyleRadioGroup row defaultValue={defaultValue.toString()}>
+            <RadioGroup
+                css={styles.radioGroup}
+                row
+                defaultValue={defaultValue.toString()}
+            >
                 {select.map((question) => (
                     <FormControlLabel
                         key={question.question}
-                        style={{ margin: "0 10px" }}
-                        value={question.value.toString()}
+                        css={styles.label}
                         control={<Radio {...register} />}
                         label={question.question}
+                        value={question.value.toString()}
                     />
                 ))}
-            </MyStyleRadioGroup>
+            </RadioGroup>
         </div>
     );
+};
+
+const styles = {
+    area: css`
+        margin: 10px 0;
+    `,
+    radioGroup: css`
+        display: flex;
+        justify-content: center;
+        height: 10vh;
+    `,
+    label: css`
+        margin: 0 10px;
+    `,
 };
 
 export default RadioButton;
