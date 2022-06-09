@@ -1,4 +1,6 @@
-import { FC } from "react";
+import React, { FC } from "react";
+
+import { css } from "@emotion/css";
 
 import { Typography } from "@material-ui/core";
 
@@ -14,32 +16,21 @@ type Props = {
 const MainScreen: FC<{ cards: Props }> = ({ cards }) => {
     return (
         <>
-            <Typography variant="h2" style={{ textAlign: "center" }}>
+            <Typography className={styles.title} variant="h2">
                 Talk-App
             </Typography>
-            <Typography
-                variant="h5"
-                style={{
-                    textAlign: "center",
-                    marginTop: "5px",
-                }}
-            >
+            <Typography className={styles.explanation} variant="h5">
                 グループワークで使えるアプリ
             </Typography>
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    flexWrap: "wrap",
-                }}
-            >
+
+            <div className={styles.cardGroup}>
                 {cards.map((card, i) => (
                     <BasicCard
+                        key={`${card.title + i}`}
                         title={card.title}
                         explanation={card.explanation ?? ""}
                         buttonLabel={card.buttonLabel}
                         onClick={card.onClick}
-                        key={`${card.title + i}`}
                     />
                 ))}
             </div>
@@ -48,3 +39,20 @@ const MainScreen: FC<{ cards: Props }> = ({ cards }) => {
 };
 
 export default MainScreen;
+
+const styles = {
+    title: css`
+        text-align: center;
+        font-family: "Joan", serif;
+    `,
+    explanation: css`
+        text-align: center;
+        margin-top: 5px;
+        font-family: "Kosugi Maru", sans-serif;
+    `,
+    cardGroup: css`
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    `,
+};
