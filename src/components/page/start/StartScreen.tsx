@@ -87,8 +87,8 @@ const StartScreen: FC<Props> = ({
 
             <ButtonGroup css={styles.buttonGroup}>
                 <Quadrangle
-                    emotion={styles.quadrangle}
                     label="戻る"
+                    emotion={styles.quadrangle}
                     onClick={backButtonClick}
                 />
                 <Button css={styles.button} variant="outlined" type="submit">

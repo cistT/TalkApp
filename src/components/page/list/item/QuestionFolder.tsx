@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { css } from "@emotion/react";
 
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
@@ -22,8 +23,8 @@ const QuestionFolder: FC<Props> = ({
 }) => {
     return (
         <>
-            <div style={{ display: "flex", height: "80px" }}>
-                <ListItemButton style={{ width: "100vw" }} onClick={onClick}>
+            <div css={styles.group}>
+                <ListItemButton css={styles.item} onClick={onClick}>
                     <ListItemText>{name}</ListItemText>
                 </ListItemButton>
                 {deleteButton && (
@@ -34,6 +35,16 @@ const QuestionFolder: FC<Props> = ({
             <Divider />
         </>
     );
+};
+
+const styles = {
+    group: css`
+        display: flex;
+        height: 80px;
+    `,
+    item: css`
+        width: 100vw;
+    `,
 };
 
 export default QuestionFolder;

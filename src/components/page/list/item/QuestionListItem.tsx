@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { css } from "@emotion/react";
 
 import ListItem from "@mui/material/ListItem";
 import Divider from "@mui/material/Divider";
@@ -19,8 +20,8 @@ const QuestionListItem: FC<Props> = ({
 }) => {
     return (
         <>
-            <div style={{ display: "flex", height: "60px" }}>
-                <ListItem style={{ width: "100vw" }}>{question}</ListItem>
+            <div css={styles.itemGroup}>
+                <ListItem css={styles.item}>{question}</ListItem>
                 {displayDeleteQuestion && (
                     <Button onClick={() => deleteQuestion(id)}>削除</Button>
                 )}
@@ -29,6 +30,16 @@ const QuestionListItem: FC<Props> = ({
             <Divider />
         </>
     );
+};
+
+const styles = {
+    itemGroup: css`
+        display: flex;
+        height: 60px;
+    `,
+    item: css`
+        width: 100vw;
+    `,
 };
 
 export default QuestionListItem;

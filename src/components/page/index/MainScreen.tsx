@@ -1,30 +1,46 @@
-import React, { FC } from "react";
+import { FC } from "react";
 
-import { css } from "@emotion/css";
+import { css } from "@emotion/react";
 
 import { Typography } from "@material-ui/core";
 
 import BasicCard from "../../ui/card/BasicCard";
 
-type Props = {
+type Card = {
     title: string;
     explanation?: string;
     buttonLabel: string;
     onClick: () => void;
-}[];
+};
 
-const MainScreen: FC<{ cards: Props }> = ({ cards }) => {
+type Props = {
+    cards: Card[];
+};
+
+const MainScreen: FC<Props> = ({ cards }) => {
+    const mainCard = cards[0];
+    const subCards = cards.slice(1);
     return (
         <>
-            <Typography className={styles.title} variant="h2">
+            <Typography css={styles.title} variant="h2">
                 Talk-App
             </Typography>
-            <Typography className={styles.explanation} variant="h5">
+            <Typography css={styles.explanation} variant="h5">
                 グループワークで使えるアプリ
             </Typography>
 
-            <div className={styles.cardGroup}>
-                {cards.map((card, i) => (
+            <div css={styles.cardGroup}>
+                <BasicCard
+                    title={mainCard.title}
+                    explanation={mainCard.explanation ?? ""}
+                    buttonLabel={mainCard.buttonLabel}
+                    emotion={styles.mainCard}
+                    onClick={mainCard.onClick}
+                />
+            </div>
+
+            <div css={styles.cardGroup}>
+                {subCards.map((card, i) => (
                     <BasicCard
                         key={`${card.title + i}`}
                         title={card.title}
@@ -44,6 +60,10 @@ const styles = {
     title: css`
         text-align: center;
         font-family: "Joan", serif;
+    `,
+    mainCard: css`
+        width: 100vw;
+        max-width: 100vw;
     `,
     explanation: css`
         text-align: center;

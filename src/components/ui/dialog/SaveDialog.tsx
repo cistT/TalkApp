@@ -1,5 +1,7 @@
 import { FC, useRef, useState } from "react";
 
+import { css } from "@emotion/react";
+
 import { v4 as uuidv4 } from "uuid";
 
 import { Button, Dialog, DialogActions, DialogTitle } from "@material-ui/core";
@@ -37,9 +39,9 @@ const SaveDialog: FC<Props> = ({
     return (
         <>
             <Button
+                css={styles.addButton}
                 variant="outlined"
                 onClick={handleClickOpen}
-                style={{ height: "60px", width: "50vw" }}
             >
                 追加する
             </Button>
@@ -47,14 +49,7 @@ const SaveDialog: FC<Props> = ({
                 <DialogTitle>{title}</DialogTitle>
                 <DialogContent>
                     <div>{inputLabel}</div>
-                    <input
-                        ref={inputRef}
-                        style={{
-                            width: "100%",
-                            height: "40px",
-                            fontSize: "5vh",
-                        }}
-                    />
+                    <input ref={inputRef} css={styles.input} />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} variant="outlined">
@@ -67,6 +62,18 @@ const SaveDialog: FC<Props> = ({
             </Dialog>
         </>
     );
+};
+
+const styles = {
+    addButton: css`
+        height: 60px;
+        width: 50vw;
+    `,
+    input: css`
+        height: 40px;
+        width: 100%;
+        font-size: 5vh;
+    `,
 };
 
 export default SaveDialog;

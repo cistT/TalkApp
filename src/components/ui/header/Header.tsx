@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { css } from "@emotion/react";
 
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../../firebase";
@@ -12,10 +13,10 @@ const Header: FC<{ title?: string }> = ({ title = "" }) => {
     const [user] = useAuthState(auth);
 
     return (
-        <Box style={{ height: "60px" }} sx={{ flexGrow: 1 }} position="static">
+        <Box css={styles.box} position="static">
             <AppBar>
-                <Toolbar style={{ justifyContent: "space-between" }}>
-                    <Typography variant="h6" component="div">
+                <Toolbar css={styles.toolbar}>
+                    <Typography variant="h6" component="div" css={styles.title}>
                         {title}
                     </Typography>
                     {user ? <SignOutButton /> : <SignInButton />}
@@ -23,6 +24,19 @@ const Header: FC<{ title?: string }> = ({ title = "" }) => {
             </AppBar>
         </Box>
     );
+};
+
+const styles = {
+    box: css`
+        height: 60px;
+        flex-grow: 1;
+    `,
+    toolbar: css`
+        justify-content: space-between;
+    `,
+    title: css`
+        font-family: "Joan", serif;
+    `,
 };
 
 export default Header;
