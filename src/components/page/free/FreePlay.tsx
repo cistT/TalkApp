@@ -1,30 +1,11 @@
-import { CSSProperties, FC } from "react";
+import { FC } from "react";
 import { useTimer } from "react-timer-hook";
+import { css } from "@emotion/react";
 
-import { ButtonGroup, styled, Typography } from "@material-ui/core";
+import { ButtonGroup, Typography } from "@material-ui/core";
 
 import CircleButton from "../../ui/button/CircleButton";
 import CountButtonGroup from "../../ui/button/CountButtonGroup";
-
-const MyStyleTypoGraphyTitle = styled(Typography)({
-    height: "5vh",
-    margin: "5px 0 5px 30px",
-});
-
-const MyStyleTypographyCountDown = styled(Typography)({
-    height: "20vh",
-    textAlign: "center",
-    marginBottom: "10px",
-});
-
-const CircleButtonStyle: CSSProperties = {
-    height: "80px",
-    width: "130px",
-};
-const MyStyleButtonGroup = styled(ButtonGroup)({
-    display: "flex",
-    justifyContent: "space-around",
-});
 
 type Props = {
     endButtonClick: () => void;
@@ -38,27 +19,21 @@ const FreePlay: FC<Props> = ({ endButtonClick }) => {
     });
     return (
         <>
-            <MyStyleTypoGraphyTitle variant="h5">質問</MyStyleTypoGraphyTitle>
+            <Typography css={styles.title} variant="h5">
+                質問
+            </Typography>
 
-            <textarea
-                style={{
-                    fontSize: "40px",
-                    outline: "none",
-                    height: "20vh",
-                    width: "100vw",
-                    padding: "0 10px",
-                }}
-            />
+            <textarea css={styles.textarea} />
 
             {/* ToDo カウントダウンの部分は別のコンポーネントに分ける */}
-            <MyStyleTypographyCountDown variant="h1">
+            <Typography css={styles.count} variant="h1">
                 <span>{minutes}</span>:
                 <span>
                     {seconds.toString().length === 1
                         ? `0${seconds.toString()}`
                         : seconds}
                 </span>
-            </MyStyleTypographyCountDown>
+            </Typography>
 
             <CountButtonGroup
                 buttons={[
@@ -68,20 +43,48 @@ const FreePlay: FC<Props> = ({ endButtonClick }) => {
                 ]}
             />
 
-            <MyStyleButtonGroup>
+            <ButtonGroup css={styles.buttonGroup}>
                 <CircleButton
                     label="終了する"
+                    emotion={styles.circleButton}
                     onClick={endButtonClick}
-                    style={CircleButtonStyle}
                 />
                 <CircleButton
                     label="終了する"
+                    emotion={styles.circleButton}
                     onClick={endButtonClick}
-                    style={CircleButtonStyle}
                 />
-            </MyStyleButtonGroup>
+            </ButtonGroup>
         </>
     );
+};
+
+const styles = {
+    title: css`
+        height: 5vh;
+        margin: 5px 0 5px 30px;
+        font-family: "Kosugi Maru", sans-serif;
+    `,
+    textarea: css`
+        font-size: 40px;
+        outline: none;
+        height: 20vh;
+        width: 100vw;
+        padding: 0 10px;
+    `,
+    count: css`
+        height: 20vh;
+        text-align: center;
+        margin-bottom: 10px;
+    `,
+    circleButton: css`
+        height: 80px;
+        width: 130px;
+    `,
+    buttonGroup: css`
+        display: flex;
+        justify-content: space-around;
+    `,
 };
 
 export default FreePlay;
