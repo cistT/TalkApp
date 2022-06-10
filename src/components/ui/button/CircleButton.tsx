@@ -1,25 +1,35 @@
 import { FC } from "react";
 
-import { Button, styled } from "@material-ui/core";
+import { css } from "@emotion/react";
 
-const MyStyleButton = styled(Button)({
-    width: "100px",
-    height: "100px",
-    borderRadius: "50%",
-});
+import { Button } from "@material-ui/core";
+import ButtonType from "../../types/ButtonType";
 
-const CircleButton: FC<{
-    label?: string;
-    onClick?: () => void;
-    style?: React.CSSProperties;
-}> = ({ label = "", onClick = () => undefined, style }) => {
+const CircleButton: FC<ButtonType> = ({
+    label = "",
+    style,
+    emotion,
+    variant = "outlined",
+    onClick = () => undefined,
+}) => {
     return (
-        <>
-            <MyStyleButton onClick={onClick} style={style} variant="outlined">
-                {label}
-            </MyStyleButton>
-        </>
+        <Button
+            css={[styles.button, emotion]}
+            style={style}
+            variant={variant}
+            onClick={onClick}
+        >
+            {label}
+        </Button>
     );
+};
+
+const styles = {
+    button: css`
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+    `,
 };
 
 export default CircleButton;

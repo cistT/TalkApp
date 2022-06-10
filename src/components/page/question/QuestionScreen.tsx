@@ -1,45 +1,11 @@
-import { CSSProperties, FC, useReducer } from "react";
+import { FC, useReducer } from "react";
 import { useTimer } from "react-timer-hook";
+import { css } from "@emotion/react";
 
-import { ButtonGroup, styled, Typography } from "@material-ui/core";
+import { ButtonGroup, Typography } from "@material-ui/core";
 
 import CircleButton from "../../ui/button/CircleButton";
-import Quadrangle from "../../ui/button/QuadrangleButton";
-
-const MyStyleTypoGraphyTitle = styled(Typography)({
-    height: "5vh",
-    margin: "5px 0 5px 30px",
-});
-
-const MyStyleTypographyQuestion = styled(Typography)({
-    height: "10vh",
-    width: "100vw",
-    textAlign: "center",
-    marginBottom: "30px",
-});
-
-const MyStyleTypographyCountDown = styled(Typography)({
-    height: "20vh",
-    textAlign: "center",
-    marginBottom: "10px",
-});
-const CountDownButtonGroup = styled(ButtonGroup)({
-    height: "20vh",
-    display: "flex",
-    justifyContent: "center",
-});
-const QuadrangleStyle: CSSProperties = {
-    height: "15vh",
-    width: "33vw",
-};
-const CircleButtonStyle: CSSProperties = {
-    height: "80px",
-    width: "130px",
-};
-const MyStyleButtonGroup = styled(ButtonGroup)({
-    display: "flex",
-    justifyContent: "space-around",
-});
+import CountButtonGroup from "../../ui/button/CountButtonGroup";
 
 type Props = {
     question: string[];
@@ -67,50 +33,42 @@ const QuestionScreen: FC<Props> = ({
 
     return (
         <>
-            <MyStyleTypoGraphyTitle variant="h5">質問</MyStyleTypoGraphyTitle>
-            <MyStyleTypographyQuestion variant="h4">
+            <Typography css={styles.title} variant="h5">
+                質問
+            </Typography>
+            <Typography css={styles.question} variant="h4">
                 {question[nowQuestion]}
-            </MyStyleTypographyQuestion>
+            </Typography>
 
             {/* ToDo カウントダウンの部分は別のコンポーネントに分ける */}
-            <MyStyleTypographyCountDown variant="h1">
+            <Typography css={styles.count} variant="h1">
                 <span>{minutes}</span>:
                 <span>
                     {seconds.toString().length === 1
                         ? `0${seconds.toString()}`
                         : seconds}
                 </span>
-            </MyStyleTypographyCountDown>
+            </Typography>
 
-            <CountDownButtonGroup>
-                <Quadrangle
-                    label="再開する"
-                    onClick={resume}
-                    style={QuadrangleStyle}
-                />
-                <Quadrangle
-                    label="一時停止"
-                    onClick={pause}
-                    style={QuadrangleStyle}
-                />
-                <Quadrangle
-                    label="リスタート"
-                    onClick={() => restart(time)}
-                    style={QuadrangleStyle}
-                />
-            </CountDownButtonGroup>
+            <CountButtonGroup
+                buttons={[
+                    { label: "再開する", onClick: resume },
+                    { label: "一時停止", onClick: pause },
+                    { label: "リスタート", onClick: () => restart(time) },
+                ]}
+            />
 
-            <MyStyleButtonGroup>
+            <ButtonGroup css={styles.buttonGroup}>
                 <CircleButton
                     label="終了する"
                     onClick={endButtonClick}
-                    style={CircleButtonStyle}
+                    emotion={styles.circleButton}
                 />
                 {nowQuestion + 1 === question.length ? (
                     <CircleButton
                         label="終了"
                         onClick={finishButttonClick}
-                        style={CircleButtonStyle}
+                        emotion={styles.circleButton}
                     />
                 ) : (
                     <CircleButton
@@ -119,12 +77,40 @@ const QuestionScreen: FC<Props> = ({
                             restart(time);
                             changeNowQuestion();
                         }}
-                        style={CircleButtonStyle}
+                        emotion={styles.circleButton}
                     />
                 )}
-            </MyStyleButtonGroup>
+            </ButtonGroup>
         </>
     );
+};
+
+const styles = {
+    title: css`
+        height: 5vh;
+        margin: 5px 0 5px 30px;
+        font-family: "Kosugi Maru", sans-serif;
+    `,
+    question: css`
+        height: 10vh;
+        width: 100vw;
+        text-align: center;
+        margin-bottom: 30px;
+        font-family: "Kosugi Maru", sans-serif;
+    `,
+    count: css`
+        height: 20vh;
+        text-align: center;
+        margin-bottom: 10px;
+    `,
+    circleButton: css`
+        height: 80px;
+        width: 130px;
+    `,
+    buttonGroup: css`
+        display: flex;
+        justify-content: space-around;
+    `,
 };
 
 export default QuestionScreen;
