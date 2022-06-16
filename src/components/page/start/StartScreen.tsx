@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { css } from "@emotion/react";
@@ -13,6 +13,7 @@ import Quadrangle from "../../ui/button/QuadrangleButton";
 
 import { selectQuestionNames } from "../../functions/StartScreen";
 import QuestionStore from "../../types/QuestionStoreType";
+import { useSpring, animated } from "react-spring";
 
 type QuestionSetting = { question: string; value: string | number }[];
 type Props = {
@@ -58,8 +59,20 @@ const StartScreen: FC<Props> = ({
         { question: "全問", value: 100 },
     ];
 
+    const [style, setStyle] = useSpring(() => ({
+        opacity: 0,
+    }));
+
+    useEffect(() => {
+        setStyle.start({ opacity: 1 });
+    }, []);
+
     return (
-        <form css={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <animated.form
+            css={styles.form}
+            onSubmit={handleSubmit(onSubmit)}
+            style={style}
+        >
             <SelectForm
                 label="質問の対象"
                 questions={selectQuestion}
@@ -95,7 +108,7 @@ const StartScreen: FC<Props> = ({
                     スタート
                 </Button>
             </ButtonGroup>
-        </form>
+        </animated.form>
     );
 };
 
