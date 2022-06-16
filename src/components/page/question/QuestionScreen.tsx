@@ -6,6 +6,7 @@ import { ButtonGroup, Typography } from "@material-ui/core";
 
 import CircleButton from "../../ui/button/CircleButton";
 import CountButtonGroup from "../../ui/button/CountButtonGroup";
+import CountDown from "../../ui/Count/CountDown";
 
 type Props = {
     question: string[];
@@ -40,15 +41,7 @@ const QuestionScreen: FC<Props> = ({
                 {question[nowQuestion]}
             </Typography>
 
-            {/* ToDo カウントダウンの部分は別のコンポーネントに分ける */}
-            <Typography css={styles.count} variant="h1">
-                <span>{minutes}</span>:
-                <span>
-                    {seconds.toString().length === 1
-                        ? `0${seconds.toString()}`
-                        : seconds}
-                </span>
-            </Typography>
+            <CountDown minutes={minutes} seconds={seconds} />
 
             <CountButtonGroup
                 buttons={[
@@ -97,11 +90,6 @@ const styles = {
         text-align: center;
         margin-bottom: 30px;
         font-family: "Kosugi Maru", sans-serif;
-    `,
-    count: css`
-        height: 20vh;
-        text-align: center;
-        margin-bottom: 10px;
     `,
     circleButton: css`
         height: 80px;

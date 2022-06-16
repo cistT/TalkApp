@@ -1,11 +1,15 @@
 import { FC } from "react";
 import { useTimer } from "react-timer-hook";
+
 import { css } from "@emotion/react";
+
+import { useSpring, animated } from "react-spring";
 
 import { ButtonGroup, Typography } from "@material-ui/core";
 
 import CircleButton from "../../ui/button/CircleButton";
 import CountButtonGroup from "../../ui/button/CountButtonGroup";
+import CountDown from "../../ui/Count/CountDown";
 
 type Props = {
     endButtonClick: () => void;
@@ -17,23 +21,19 @@ const FreePlay: FC<Props> = ({ endButtonClick }) => {
     const { seconds, minutes, pause, resume, restart } = useTimer({
         expiryTimestamp: time,
     });
+    const animatedStyles = useSpring({
+        from: { opacity: 0 },
+        to: { opacity: 1 },
+    });
     return (
-        <>
+        <animated.div style={animatedStyles}>
             <Typography css={styles.title} variant="h5">
                 質問
             </Typography>
 
             <textarea css={styles.textarea} />
 
-            {/* ToDo カウントダウンの部分は別のコンポーネントに分ける */}
-            <Typography css={styles.count} variant="h1">
-                <span>{minutes}</span>:
-                <span>
-                    {seconds.toString().length === 1
-                        ? `0${seconds.toString()}`
-                        : seconds}
-                </span>
-            </Typography>
+            <CountDown minutes={minutes} seconds={seconds} />
 
             <CountButtonGroup
                 buttons={[
@@ -55,7 +55,7 @@ const FreePlay: FC<Props> = ({ endButtonClick }) => {
                     onClick={endButtonClick}
                 />
             </ButtonGroup>
-        </>
+        </animated.div>
     );
 };
 
