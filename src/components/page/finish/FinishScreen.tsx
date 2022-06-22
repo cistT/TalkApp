@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { css } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
 
 import { ButtonGroup, Typography } from "@material-ui/core";
 
@@ -37,6 +37,23 @@ const FinishScreen: FC<Props> = ({ oneMoreButtonClick, finishButtonClick }) => {
     );
 };
 
+const titleKeyframes = keyframes`
+    0% {
+        transform: rotate(20deg);
+    }
+    25% {
+        transform: rotate(-20deg);
+    }
+    50% {
+        transform: rotate(20deg);
+    }
+    75% {
+        transform: rotate(-20deg);
+    }
+
+
+`;
+
 const styles = {
     title: css`
         height: 20vh;
@@ -45,6 +62,9 @@ const styles = {
         margin: 30px auto;
         font-size: 10vw;
         font-family: "Kosugi Maru", sans-serif;
+        animation-name: ${titleKeyframes};
+        animation-duration: 1s;
+        animation-timing-function: ease;
     `,
     explanation: css`
         height: 10vh;
@@ -60,6 +80,11 @@ const styles = {
     circleButton: css`
         height: 130px;
         width: 130px;
+        transition: all 0.5s;
+        :hover {
+            background-color: rgba(35, 133, 252, 0.05);
+            transform: scale(1.2);
+        }
     `,
 };
 

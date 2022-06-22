@@ -15,10 +15,10 @@ const QuadrangleButton: FC<ButtonType> = ({
 }) => {
     return (
         <Button
+            css={[styles.button, emotion]}
             style={style}
             variant={variant}
             onClick={onClick}
-            css={emotion ?? styles.button}
         >
             {label}
         </Button>

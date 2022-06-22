@@ -1,5 +1,7 @@
 import { FC, useReducer } from "react";
+
 import { useTimer } from "react-timer-hook";
+
 import { css } from "@emotion/react";
 
 import { ButtonGroup, Typography } from "@material-ui/core";
@@ -37,6 +39,7 @@ const QuestionScreen: FC<Props> = ({
             <Typography css={styles.title} variant="h5">
                 質問
             </Typography>
+
             <Typography css={styles.question} variant="h4">
                 {question[nowQuestion]}
             </Typography>
@@ -94,6 +97,11 @@ const styles = {
     circleButton: css`
         height: 80px;
         width: 130px;
+        transition: all 0.5s;
+        :hover {
+            background-color: rgba(35, 133, 252, 0.05);
+            transform: scale(1.2);
+        }
     `,
     buttonGroup: css`
         display: flex;

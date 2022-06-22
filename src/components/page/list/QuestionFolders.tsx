@@ -1,12 +1,14 @@
 import { FC, useReducer, useState } from "react";
 
+import { css } from "@emotion/react";
+
 import List from "@mui/material/List";
 
 import QuestionFolder from "./item/QuestionFolder";
 import QuestionListItem from "./item/QuestionListItem";
-import BackButton from "../../ui/button/BackButton";
 import SaveDialog from "../../ui/dialog/SaveDialog";
 import QuestionStore from "../../types/QuestionStoreType";
+import QuadrangleButton from "../../ui/button/QuadrangleButton";
 
 type Props = {
     questionsStore: QuestionStore;
@@ -53,7 +55,12 @@ const QuestionFolders: FC<Props> = ({
                             />
                         ))}
                     </List>
-                    <BackButton onClick={openMainScreen} />
+                    <QuadrangleButton
+                        label="戻る"
+                        variant="outlined"
+                        emotion={styles.button}
+                        onClick={openMainScreen}
+                    />
                     <SaveDialog
                         save={createFolder}
                         title="フォルダをを作成する"
@@ -86,7 +93,12 @@ const QuestionFolders: FC<Props> = ({
                             save={addQuestion(questionsId)}
                         />
                     )}
-                    <BackButton onClick={dispatch} />
+                    <QuadrangleButton
+                        label="戻る"
+                        variant="outlined"
+                        emotion={styles.button}
+                        onClick={dispatch}
+                    />
                 </>
             )}
         </>
@@ -94,3 +106,15 @@ const QuestionFolders: FC<Props> = ({
 };
 
 export default QuestionFolders;
+
+const styles = {
+    button: css`
+        height: 60px;
+        width: 50vw;
+        float: right;
+        transition: all 0.5s;
+        :hover {
+            background-color: rgba(35, 133, 252, 0.3);
+        }
+    `,
+};

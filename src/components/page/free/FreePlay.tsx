@@ -24,6 +24,7 @@ const FreePlay: FC<Props> = ({ endButtonClick }) => {
     const animatedStyles = useSpring({
         from: { opacity: 0 },
         to: { opacity: 1 },
+        delay: 100,
     });
     return (
         <animated.div style={animatedStyles}>
@@ -71,11 +72,6 @@ const styles = {
         height: 20vh;
         width: 100vw;
         padding: 0 10px;
-    `,
-    count: css`
-        height: 20vh;
-        text-align: center;
-        margin-bottom: 10px;
     `,
     circleButton: css`
         height: 80px;

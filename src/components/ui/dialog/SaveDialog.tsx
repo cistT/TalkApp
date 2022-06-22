@@ -68,6 +68,10 @@ const styles = {
     addButton: css`
         height: 60px;
         width: 50vw;
+        transition: all 0.5s;
+        :hover {
+            background-color: rgba(35, 133, 252, 0.3);
+        }
     `,
     input: css`
         height: 40px;

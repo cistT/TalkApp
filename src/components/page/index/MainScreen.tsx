@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { css } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
 
 import { Typography } from "@material-ui/core";
 
@@ -58,82 +58,65 @@ const MainScreen: FC<Props> = ({ cards }) => {
 
 export default MainScreen;
 
+const keyframe = {
+    animation: keyframes`
+        0% {
+            transform: translateY(90px);
+        }
+        100% {
+            transform: translateY(0px);
+        }
+    `,
+};
+
 const styles = {
     title: css`
         text-align: center;
         font-family: "Joan", serif;
-        animation-name: animation;
+        animation-name: ${keyframe.animation};
         animation-duration: 0.25s;
         animation-timing-function: ease;
-        @keyframes animation {
-            0% {
-                transform: translateY(30px);
-            }
-            100% {
-                transform: translateY(0px);
-            }
-        }
     `,
     explanation: css`
         text-align: center;
         margin-top: 5px;
         font-family: "Kosugi Maru", sans-serif;
-        animation-name: animation;
+        animation-name: ${keyframe.animation};
         animation-duration: 0.25s;
         animation-timing-function: ease;
-        @keyframes animation {
-            0% {
-                transform: translateY(30px);
-            }
-            100% {
-                transform: translateY(0px);
-            }
-        }
     `,
     mainCard: css`
         width: 100vw;
         max-width: 100vw;
+        cursor: pointer;
         transition: all 0.5s;
         :hover {
-            transform: scale(1.2);
+            background-color: rgba(35, 133, 252, 0.05);
+            transform: scale(1.1);
         }
     `,
     cardGroup: css`
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
-        animation-name: animation;
+        animation-name: ${keyframe.animation};
         animation-duration: 0.5s;
         animation-timing-function: ease;
-        @keyframes animation {
-            0% {
-                transform: translateY(150px);
-            }
-            100% {
-                transform: translateY(0px);
-            }
-        }
     `,
     subCardGroup: css`
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
-        animation-name: animation;
-        animation-duration: 0.75s;
+        animation-name: ${keyframe.animation};
+        animation-duration: 1s;
         animation-timing-function: ease;
-        @keyframes animation {
-            0% {
-                transform: translateY(150px);
-            }
-            100% {
-                transform: translateY(0px);
-            }
-        }
     `,
     subCard: css`
         transition: all 0.5s;
+        cursor: pointer;
         :hover {
-            transform: scale(1.2);
+            background-color: rgba(35, 133, 252, 0.05);
+            transform: scale(1.1);
         }
     `,
 };

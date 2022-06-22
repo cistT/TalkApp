@@ -1,7 +1,7 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { useForm } from "react-hook-form";
 
-import { css } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
 
 import { Button, ButtonGroup } from "@material-ui/core";
 
@@ -13,7 +13,6 @@ import Quadrangle from "../../ui/button/QuadrangleButton";
 
 import { selectQuestionNames } from "../../functions/StartScreen";
 import QuestionStore from "../../types/QuestionStoreType";
-import { useSpring, animated } from "react-spring";
 
 type QuestionSetting = { question: string; value: string | number }[];
 type Props = {
@@ -59,20 +58,8 @@ const StartScreen: FC<Props> = ({
         { question: "全問", value: 100 },
     ];
 
-    const [style, setStyle] = useSpring(() => ({
-        opacity: 0,
-    }));
-
-    useEffect(() => {
-        setStyle.start({ opacity: 1 });
-    }, []);
-
     return (
-        <animated.form
-            css={styles.form}
-            onSubmit={handleSubmit(onSubmit)}
-            style={style}
-        >
+        <form css={styles.form} onSubmit={handleSubmit(onSubmit)}>
             <SelectForm
                 label="質問の対象"
                 questions={selectQuestion}
@@ -108,28 +95,50 @@ const StartScreen: FC<Props> = ({
                     スタート
                 </Button>
             </ButtonGroup>
-        </animated.form>
+        </form>
     );
 };
 
 export default StartScreen;
 
+const keyframe = {
+    form: keyframes`
+        0%{
+            opacity:0
+        }
+        100%{
+            opacity:1
+        }
+    `,
+};
+
 const styles = {
-    quadrangle: css`
-        height: 60px;
-        width: 45vw;
-    `,
-    button: css`
-        height: 60px;
-        width: 45vw;
-    `,
     form: css`
         text-align: center;
         justify-content: center;
+        animation-name: ${keyframe.form};
+        animation-duration: 1s;
+        animation-timing-function: ease;
+    `,
+    quadrangle: css`
+        height: 60px;
+        width: 45vw;
+        transition: all 0.5s;
+        :hover {
+            background-color: rgba(35, 133, 252, 0.3);
+        }
     `,
     buttonGroup: css`
         text-align: center;
         display: flex;
         justify-content: center;
+    `,
+    button: css`
+        height: 60px;
+        width: 45vw;
+        transition: all 0.5s;
+        :hover {
+            background-color: rgba(35, 133, 252, 0.3);
+        }
     `,
 };

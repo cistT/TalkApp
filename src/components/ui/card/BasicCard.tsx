@@ -12,7 +12,7 @@ type Props = {
     title?: string;
     explanation?: string;
     buttonLabel?: string;
-    emotion?: SerializedStyles;
+    style?: SerializedStyles;
     onClick?: () => void;
 };
 
@@ -20,11 +20,11 @@ const BasicCard: FC<Props> = ({
     title = "",
     explanation = "",
     buttonLabel = "見る",
-    emotion,
+    style,
     onClick = () => undefined,
 }) => {
     return (
-        <Card css={[emotion, styles.card]}>
+        <Card css={[style, styles.card]} onClick={onClick}>
             <CardContent css={styles.cardContent}>
                 <Typography css={styles.cardTitle} variant="h4" component="div">
                     {title}
