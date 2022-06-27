@@ -5,6 +5,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import firebase from "firebase/compat/app";
 import { auth, db } from "./firebase";
 
+import { css } from "@emotion/react";
+
 import Header from "./components/ui/header/Header";
 import MainScreen from "./components/page/index/MainScreen";
 import StartScreen from "./components/page/start/StartScreen";
@@ -21,6 +23,7 @@ import {
     deleteFireStore,
     setFireStore,
 } from "./components/functions/FireStoreOperate";
+import StartQuestion from "./components/functions/StartQuestion";
 
 const App: FC = () => {
     const [user] = useAuthState(auth);
@@ -60,21 +63,6 @@ const App: FC = () => {
         { id: "1", name: "デフォルト", questions: defaultQuestions },
         { id: "2", name: "グループワーク", questions: groupWorkQuestions },
     ]);
-
-    const setStartQuestion = (questions: string[]) => {
-        if (questions.length === 0) return [];
-
-        let array: string[] = [...questions];
-
-        if (questionSetting.order.toString() === "1") {
-            array = shuffleArray(questions);
-        }
-        if (Number(questionSetting.number) < array.length) {
-            array = array.filter((_, i) => i < Number(questionSetting.number));
-        }
-
-        return array;
-    };
 
     const navigate = useNavigate();
     const openMainScreen = () => navigate("/");
@@ -212,7 +200,7 @@ const App: FC = () => {
     }, [user?.uid]);
 
     return (
-        <>
+        <div css={styles.app}>
             <Header title="Talk-App (α版)" />
 
             <Routes>
@@ -259,7 +247,7 @@ const App: FC = () => {
                     path="/question"
                     element={
                         <QuestionScreen
-                            question={setStartQuestion(
+                            question={StartQuestion(
                                 questionsStore
                                     .filter(
                                         (newData) =>
@@ -267,7 +255,8 @@ const App: FC = () => {
                                             questionSetting.target
                                     )[0]
                                     ?.questions.map((data) => data.question) ??
-                                    []
+                                    [],
+                                questionSetting
                             )}
                             timeLime={questionSetting.timeLimit}
                             endButtonClick={openMainScreen}
@@ -303,8 +292,12 @@ const App: FC = () => {
                     }
                 />
             </Routes>
-        </>
+        </div>
     );
 };
 
 export default App;
+
+const styles = {
+    app: css``,
+};
