@@ -61,10 +61,12 @@ export default MainScreen;
 const keyframe = {
     animation: keyframes`
         0% {
-            transform: translateY(90px);
+            transform: translateY(150px);
+            opacity:0;
         }
         100% {
             transform: translateY(0px);
+            opacity:1;
         }
     `,
 };
@@ -74,7 +76,7 @@ const styles = {
         text-align: center;
         font-family: "Joan", serif;
         animation-name: ${keyframe.animation};
-        animation-duration: 0.25s;
+        animation-duration: 0.5s;
         animation-timing-function: ease;
     `,
     explanation: css`
@@ -82,7 +84,7 @@ const styles = {
         margin-top: 5px;
         font-family: "Kosugi Maru", sans-serif;
         animation-name: ${keyframe.animation};
-        animation-duration: 0.25s;
+        animation-duration: 0.5s;
         animation-timing-function: ease;
     `,
     mainCard: css`
@@ -100,7 +102,7 @@ const styles = {
         justify-content: center;
         flex-wrap: wrap;
         animation-name: ${keyframe.animation};
-        animation-duration: 0.5s;
+        animation-duration: 0.75s;
         animation-timing-function: ease;
     `,
     subCardGroup: css`
