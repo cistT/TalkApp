@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useLayoutEffect, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -18,12 +18,12 @@ import QuestionFolders from "./components/page/list/QuestionFolders";
 import QuestionSettingType from "./components/types/QuestionSettingType";
 import QuestionStore from "./components/types/QuestionStoreType";
 
-import shuffleArray from "./components/functions/ShuffleArray";
 import {
     deleteFireStore,
     setFireStore,
 } from "./components/functions/FireStoreOperate";
 import StartQuestion from "./components/functions/StartQuestion";
+import DeleteQuestion from "./components/functions/DeleteQuestion";
 
 const App: FC = () => {
     const [user] = useAuthState(auth);
@@ -127,23 +127,17 @@ const App: FC = () => {
     const deleteQuestion = (folderId: string) => {
         return (questionId: string) => {
             setQuestionsStore((q) => {
-                return q.map((question) => {
-                    if (question.id === folderId) {
-                        return {
-                            ...question,
-                            questions: question.questions.filter(
-                                (data) => data.id !== questionId
-                            ),
-                        };
-                    }
-                    return question;
-                });
+                return q.map((question) =>
+                    question.id === folderId
+                        ? DeleteQuestion(questionId, question)
+                        : question
+                );
             });
             user?.uid && deleteFireStore("question", questionId);
         };
     };
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         user?.uid &&
             db
                 .collection("folder")
