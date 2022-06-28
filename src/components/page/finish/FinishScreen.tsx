@@ -37,45 +37,55 @@ const FinishScreen: FC<Props> = ({ oneMoreButtonClick, finishButtonClick }) => {
     );
 };
 
-const titleKeyframes = keyframes`
-    0% {
-        transform: rotate(20deg);
-    }
-    25% {
-        transform: rotate(-20deg);
-    }
-    50% {
-        transform: rotate(20deg);
-    }
-    75% {
-        transform: rotate(-20deg);
-    }
-
-
-`;
+const keyframe = {
+    title: keyframes`
+        0%{
+            transform:scale(0.5);
+        }
+    `,
+    otherTitle: keyframes`
+        0%{
+            opacity:0;
+            transform:scale(0);
+        }
+        100%{
+            opacity:1;
+            transform:scale(1);
+        }
+    `,
+};
 
 const styles = {
     title: css`
         height: 20vh;
         width: 90vw;
+        max-width: 800px;
         text-align: center;
         margin: 30px auto;
-        font-size: 10vw;
+        font-size: clamp(16px, 8vw, 5rem);
         font-family: "Kosugi Maru", sans-serif;
-        animation-name: ${titleKeyframes};
-        animation-duration: 1s;
+        animation-name: ${keyframe.title};
+        animation-duration: 1.5s;
         animation-timing-function: ease;
     `,
     explanation: css`
         height: 10vh;
-        width: 90%;
+        width: 90vw;
+        max-width: 500px;
+        font-size: clamp(16px, 6vw, 2rem);
         text-align: center;
         margin: 10px auto;
         font-family: "Kosugi Maru", sans-serif;
+        animation-name: ${keyframe.otherTitle};
+        animation-duration: 3s;
+        animation-timing-function: ease;
     `,
     buttonGroup: css`
         display: flex;
         justify-content: space-around;
+        animation-name: ${keyframe.otherTitle};
+        animation-duration: 2s;
+        animation-timing-function: ease;
     `,
     circleButton: css`
         height: 130px;
