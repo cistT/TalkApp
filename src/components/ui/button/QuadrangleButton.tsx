@@ -12,6 +12,7 @@ const QuadrangleButton: FC<ButtonType> = ({
     variant = "outlined",
     style,
     emotion,
+    buttonIcon = undefined,
 }) => {
     return (
         <Button
@@ -20,7 +21,10 @@ const QuadrangleButton: FC<ButtonType> = ({
             variant={variant}
             onClick={onClick}
         >
-            {label}
+            <>
+                {buttonIcon}
+                {label}
+            </>
         </Button>
     );
 };
@@ -29,6 +33,7 @@ const styles = {
     button: css`
         height: 60px;
         width: 60px;
+        font-size: 20px;
     `,
 };
 
