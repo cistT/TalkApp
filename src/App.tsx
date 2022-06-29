@@ -4,6 +4,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import firebase from "firebase/compat/app";
 import { auth, db } from "./firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 import QuestionSettingType from "./components/types/QuestionSettingType";
 import QuestionStore from "./components/types/QuestionStoreType";
@@ -105,10 +106,10 @@ const App: FC = () => {
     const addQuestion = (folderId: string) => {
         return (newQuestionId: string, newQuestion: string) => {
             setQuestionsStore((questionsStore) =>
-                questionsStore.map((question) => {
-                    return question.id === folderId
-                        ? AddQuestion(question, newQuestionId, newQuestion)
-                        : question;
+                questionsStore.map((folder) => {
+                    return folder.id === folderId
+                        ? AddQuestion(folder, newQuestionId, newQuestion)
+                        : folder;
                 })
             );
 
@@ -128,10 +129,10 @@ const App: FC = () => {
     const deleteQuestion = (folderId: string) => {
         return (questionId: string) => {
             setQuestionsStore((q) => {
-                return q.map((question) =>
-                    question.id === folderId
-                        ? DeleteQuestion(questionId, question)
-                        : question
+                return q.map((folder) =>
+                    folder.id === folderId
+                        ? DeleteQuestion(questionId, folder)
+                        : folder
                 );
             });
             user?.uid && deleteFireStore("question", questionId);
@@ -139,59 +140,65 @@ const App: FC = () => {
     };
 
     useLayoutEffect(() => {
-        user?.uid &&
-            db
-                .collection("folder")
-                .where("uid", "==", user?.uid ?? null)
-                .onSnapshot((snapShot) => {
-                    setQuestionsStore([
-                        {
-                            id: "1",
-                            name: "デフォルト",
-                            questions: defaultQuestions,
-                        },
-                        {
-                            id: "2",
-                            name: "グループワーク",
-                            questions: groupWorkQuestions,
-                        },
-                        ...snapShot.docs.map((doc) => ({
-                            id: doc.data().folderId,
-                            name: doc.data().name,
-                            questions: [],
-                        })),
-                    ]);
-                });
+        if (user?.uid) {
+            (async () => {
+                const q = query(
+                    collection(db, "folder"),
+                    where("uid", "==", user?.uid ?? null)
+                );
+                const querySnapshot = await getDocs(q);
+                setQuestionsStore([
+                    {
+                        id: "1",
+                        name: "デフォルト",
+                        questions: defaultQuestions,
+                    },
+                    {
+                        id: "2",
+                        name: "グループワーク",
+                        questions: groupWorkQuestions,
+                    },
+                    ...querySnapshot.docs.map((doc) => ({
+                        id: doc.data().folderId,
+                        name: doc.data().name,
+                        questions: [],
+                    })),
+                ]);
+            })();
+        }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
 
     useEffect(() => {
-        user?.uid &&
-            db
-                .collection("question")
-                .where("uid", "==", user?.uid ?? null)
-                .onSnapshot((snapShot) => {
-                    const data = snapShot.docs.map((doc) => doc.data());
-                    setQuestionsStore((q) =>
-                        q.map((folder) => ({
-                            id: folder.id,
-                            name: folder.name,
-                            questions:
-                                folder.questions.length > 0
-                                    ? folder.questions
-                                    : data
-                                          .filter(
-                                              (question) =>
-                                                  question.folderId ===
-                                                  folder.id
-                                          )
-                                          .map((question) => ({
-                                              question: question.name,
-                                              id: question.questionId,
-                                          })),
-                        }))
-                    );
-                });
+        if (user?.uid) {
+            (async () => {
+                const q = query(
+                    collection(db, "question"),
+                    where("uid", "==", user?.uid ?? null)
+                );
+                const querySnapshot = await getDocs(q);
+                const data = querySnapshot.docs.map((doc) => doc.data());
+                setQuestionsStore((q) =>
+                    q.map((folder) => ({
+                        id: folder.id,
+                        name: folder.name,
+                        questions:
+                            folder.questions.length > 0
+                                ? folder.questions
+                                : data
+                                      .filter(
+                                          (question) =>
+                                              question.folderId === folder.id
+                                      )
+                                      .map((question) => ({
+                                          question: question.name,
+                                          id: question.questionId,
+                                      })),
+                    }))
+                );
+            })();
+        }
     }, [user?.uid]);
 
     const cards = [
