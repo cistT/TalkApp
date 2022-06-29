@@ -68,11 +68,9 @@ const keyframe = {
     content: keyframes`
         0%{
             opacity:0;
-            transform:scale(0.9);
         }
         100%{
             opacity:1;
-            transform:scale(1);
         }
     `,
 };
@@ -80,7 +78,7 @@ const keyframe = {
 const styles = {
     content: css`
         animation-name: ${keyframe.content};
-        animation-duration: 0.75s;
+        animation-duration: 0.5s;
         animation-timing-function: ease;
     `,
     button: css`
