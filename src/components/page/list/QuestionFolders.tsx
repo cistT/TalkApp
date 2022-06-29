@@ -3,6 +3,7 @@ import { FC } from "react";
 import { css, keyframes } from "@emotion/react";
 
 import List from "@mui/material/List";
+import CreateNewFolderSharpIcon from "@mui/icons-material/CreateNewFolderSharp";
 
 import QuestionFolder from "./item/QuestionFolder";
 import SaveDialog from "../../ui/dialog/SaveDialog";
@@ -55,6 +56,7 @@ const QuestionFolders: FC<Props> = ({
                 save={createFolder}
                 title="フォルダをを作成する"
                 inputLabel="フォルダ名を入力してください"
+                buttonIcon={<CreateNewFolderSharpIcon />}
             />
         </div>
     );
