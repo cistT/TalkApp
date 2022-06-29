@@ -5,18 +5,20 @@ import { css } from "@emotion/react";
 import { v4 as uuidv4 } from "uuid";
 
 import { Button, Dialog, DialogActions, DialogTitle } from "@material-ui/core";
-import { DialogContent } from "@mui/material";
+import { DialogContent, SvgIconProps } from "@mui/material";
 
 type Props = {
     title?: string;
     inputLabel?: string;
     save: (newDataId: string, newdata: string) => void;
+    buttonIcon?: React.HTMLProps<SvgIconProps> | undefined;
 };
 
 const SaveDialog: FC<Props> = ({
     title = "追加する",
     inputLabel = "",
     save,
+    buttonIcon = undefined,
 }) => {
     const [open, setOpen] = useState(false);
 
@@ -43,7 +45,10 @@ const SaveDialog: FC<Props> = ({
                 variant="outlined"
                 onClick={handleClickOpen}
             >
-                追加する
+                <>
+                    {buttonIcon}
+                    追加する
+                </>
             </Button>
             <Dialog open={open} onClose={handleClose} fullWidth>
                 <DialogTitle>{title}</DialogTitle>
