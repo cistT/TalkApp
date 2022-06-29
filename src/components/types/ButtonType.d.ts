@@ -5,6 +5,7 @@ type ButtonType = {
     style?: CSSProperties;
     emotion?: SerializedStyles;
     variant?: "text" | "outlined" | "contained" | undefined;
+    buttonIcon?: React.HTMLProps<SvgIconProps> | undefined;
     onClick?: () => void;
 };
 
