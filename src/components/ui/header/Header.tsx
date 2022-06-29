@@ -9,14 +9,24 @@ import { AppBar, Box, Toolbar, Typography } from "@material-ui/core";
 import SignOutButton from "../button/SignOutButton";
 import SignInButton from "../button/SignInButton";
 
-const Header: FC<{ title?: string }> = ({ title = "" }) => {
+type Props = {
+    title?: string;
+    titleOnClick?: () => void;
+};
+
+const Header: FC<Props> = ({ title = "", titleOnClick = () => undefined }) => {
     const [user] = useAuthState(auth);
 
     return (
         <Box css={styles.box} position="static">
             <AppBar>
                 <Toolbar css={styles.toolbar}>
-                    <Typography variant="h6" component="div" css={styles.title}>
+                    <Typography
+                        variant="h6"
+                        component="div"
+                        css={styles.title}
+                        onClick={titleOnClick}
+                    >
                         {title}
                     </Typography>
                     {user ? <SignOutButton /> : <SignInButton />}
@@ -36,6 +46,9 @@ const styles = {
     `,
     title: css`
         font-family: "Joan", serif;
+        :hover {
+            cursor: pointer;
+        }
     `,
 };
 
