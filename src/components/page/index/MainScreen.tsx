@@ -60,13 +60,13 @@ export default MainScreen;
 
 const keyframe = {
     animation: keyframes`
-        0% {
-            transform: translateY(150px);
+        0%{
             opacity:0;
+            transform:scale(0.7);
         }
-        100% {
-            transform: translateY(0px);
+        100%{
             opacity:1;
+            transform:scale(1);
         }
     `,
 };
