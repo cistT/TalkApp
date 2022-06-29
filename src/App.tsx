@@ -5,8 +5,6 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import firebase from "firebase/compat/app";
 import { auth, db } from "./firebase";
 
-import { css } from "@emotion/react";
-
 import Header from "./components/ui/header/Header";
 import MainScreen from "./components/page/index/MainScreen";
 import StartScreen from "./components/page/start/StartScreen";
@@ -24,6 +22,7 @@ import {
 } from "./components/functions/FireStoreOperate";
 import StartQuestion from "./components/functions/StartQuestion";
 import DeleteQuestion from "./components/functions/DeleteQuestion";
+import QuestionItemScreen from "./components/page/item/QuestionItemScreen";
 
 const App: FC = () => {
     const [user] = useAuthState(auth);
@@ -71,6 +70,7 @@ const App: FC = () => {
     const openFinishScreen = () => navigate("/finish");
     const openFreePlay = () => navigate("/free");
     const openQuestionList = () => navigate("/list");
+    const openItemList = () => navigate("/item");
 
     const createFolder = (newDataId: string, newData: string) => {
         setQuestionsStore((folder) => [
@@ -92,6 +92,11 @@ const App: FC = () => {
             folder.filter((data) => data.id !== folderId)
         );
         user?.uid && deleteFireStore("folder", folderId);
+    };
+
+    const [listItem, setListItem] = useState<string>("1");
+    const setQuestionListItem = (folderId: string) => {
+        setListItem(folderId);
     };
 
     const addQuestion = (dataId: string) => {
@@ -193,39 +198,48 @@ const App: FC = () => {
                 });
     }, [user?.uid]);
 
+    const cards = [
+        {
+            title: "開始する",
+            explanation: "質問の設定画面が出ます",
+            buttonLabel: "スタート",
+            onClick: openStartScreen,
+        },
+        {
+            title: "Free Play",
+            explanation: "自由に質問を作ることができます",
+            buttonLabel: "Let's Go",
+            onClick: openFreePlay,
+        },
+        {
+            title: "質問リスト",
+            explanation: "質問一覧を見ることができます",
+            buttonLabel: "質問リストへ",
+            onClick: openQuestionList,
+        },
+    ];
+
     return (
-        <div css={styles.app}>
+        <>
             <Header title="Talk-App (α版)" />
 
             <Routes>
                 <Route
-                    index
+                    path="/item"
                     element={
-                        <MainScreen
-                            cards={[
-                                {
-                                    title: "開始する",
-                                    explanation: "質問の設定画面が出ます",
-                                    buttonLabel: "スタート",
-                                    onClick: openStartScreen,
-                                },
-                                {
-                                    title: "Free Play",
-                                    explanation:
-                                        "自由に質問を作ることができます",
-                                    buttonLabel: "Let's Go",
-                                    onClick: openFreePlay,
-                                },
-                                {
-                                    title: "質問リスト",
-                                    explanation: "質問一覧を見ることができます",
-                                    buttonLabel: "質問リストへ",
-                                    onClick: openQuestionList,
-                                },
-                            ]}
+                        <QuestionItemScreen
+                            question={
+                                questionsStore.filter(
+                                    (item) => item.id === listItem
+                                )[0]
+                            }
+                            deleteQuestion={deleteQuestion}
+                            addQuestion={addQuestion}
+                            backButton={openQuestionList}
                         />
                     }
                 />
+                <Route index element={<MainScreen cards={cards} />} />
                 <Route
                     path="/start"
                     element={
@@ -280,18 +294,14 @@ const App: FC = () => {
                             openMainScreen={openMainScreen}
                             createFolder={createFolder}
                             deleteFolder={deleteFolder}
-                            addQuestion={addQuestion}
-                            deleteQuestion={deleteQuestion}
+                            setQuestionListItem={setQuestionListItem}
+                            openItemList={openItemList}
                         />
                     }
                 />
             </Routes>
-        </div>
+        </>
     );
 };
 
 export default App;
-
-const styles = {
-    app: css``,
-};
