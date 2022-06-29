@@ -23,7 +23,7 @@ const QuestionItemScreen: FC<Props> = ({
 }) => {
     const { id, questions } = question;
     return (
-        <>
+        <div css={styles.content}>
             <List>
                 {questions.map((question) => (
                     <QuestionListItem
@@ -48,13 +48,31 @@ const QuestionItemScreen: FC<Props> = ({
                 emotion={styles.button}
                 onClick={backButton}
             />
-        </>
+        </div>
     );
 };
 
 export default QuestionItemScreen;
 
+const keyframe = {
+    content: keyframes`
+        0%{
+            opacity:0;
+            transform:translateY(200px);
+        }
+        100%{
+            opacity:1;
+            transform:translateY(0px);
+        }
+    `,
+};
+
 const styles = {
+    content: css`
+        animation-name: ${keyframe.content};
+        animation-duration: 0.75s;
+        animation-timing-function: ease;
+    `,
     button: css`
         height: 60px;
         width: 50vw;
