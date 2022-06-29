@@ -5,6 +5,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import { Button } from "@material-ui/core";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 type Props = {
     id: string;
@@ -28,7 +29,15 @@ const QuestionFolder: FC<Props> = ({
                     <ListItemText>{name}</ListItemText>
                 </ListItemButton>
                 {deleteButton && (
-                    <Button onClick={() => deleteFolder(id)}>削除</Button>
+                    <Button
+                        css={styles.button}
+                        onClick={() => deleteFolder(id)}
+                    >
+                        <>
+                            <DeleteIcon />
+                            <div>削除</div>
+                        </>
+                    </Button>
                 )}
             </div>
 
@@ -44,6 +53,11 @@ const styles = {
     `,
     item: css`
         width: 100vw;
+    `,
+    button: css`
+        display: inline;
+        width: 10vw;
+        margin-right: 20px;
     `,
 };
 
