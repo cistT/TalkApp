@@ -221,7 +221,7 @@ const App: FC = () => {
 
     return (
         <>
-            <Header title="Talk-App (α版)" />
+            <Header title="Talk-App (α版)" titleOnClick={openMainScreen} />
 
             <Routes>
                 <Route
