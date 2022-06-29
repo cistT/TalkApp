@@ -8,7 +8,10 @@ import { ButtonGroup, Typography } from "@material-ui/core";
 
 import CircleButton from "../../ui/button/CircleButton";
 import CountButtonGroup from "../../ui/button/CountButtonGroup";
-import CountDown from "../../ui/Count/CountDown";
+import CountDown from "../../ui/count/CountDown";
+import PlayCircleFilledIcon from "@mui/icons-material/PlayCircleFilled";
+import StopIcon from "@mui/icons-material/Stop";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 type Props = {
     question: string[];
@@ -34,6 +37,16 @@ const QuestionScreen: FC<Props> = ({
         0
     );
 
+    const buttons = [
+        { label: "再開する", onClick: resume, icon: <PlayCircleFilledIcon /> },
+        { label: "一時停止", onClick: pause, icon: <StopIcon /> },
+        {
+            label: "リスタート",
+            onClick: () => restart(time),
+            icon: <RestartAltIcon />,
+        },
+    ];
+
     return (
         <>
             <Typography css={styles.title} variant="h5">
@@ -46,13 +59,7 @@ const QuestionScreen: FC<Props> = ({
 
             <CountDown minutes={minutes} seconds={seconds} />
 
-            <CountButtonGroup
-                buttons={[
-                    { label: "再開する", onClick: resume },
-                    { label: "一時停止", onClick: pause },
-                    { label: "リスタート", onClick: () => restart(time) },
-                ]}
-            />
+            <CountButtonGroup buttons={buttons} />
 
             <ButtonGroup css={styles.buttonGroup}>
                 <CircleButton
