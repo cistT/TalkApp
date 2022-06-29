@@ -62,11 +62,11 @@ const keyframe = {
     content: keyframes`
         0%{
             opacity:0;
-            transform:translateY(200px);
+            transform:scale(0.9);
         }
         100%{
             opacity:1;
-            transform:translateY(0px);
+            transform:scale(1);
         }
     `,
 };
