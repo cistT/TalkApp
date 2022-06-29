@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { css, keyframes } from "@emotion/react";
+import { css } from "@emotion/react";
 
 import ListItem from "@mui/material/ListItem";
 import { Button } from "@material-ui/core";
@@ -48,7 +48,7 @@ const styles = {
     `,
     item: css`
         width: 100vw;
-        font-size: 30px;
+        font-size: 25px;
     `,
     button: css`
         display: inline;
