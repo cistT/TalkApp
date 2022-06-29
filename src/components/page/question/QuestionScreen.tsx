@@ -5,13 +5,13 @@ import { useTimer } from "react-timer-hook";
 import { css } from "@emotion/react";
 
 import { ButtonGroup, Typography } from "@material-ui/core";
+import PlayCircleFilledIcon from "@mui/icons-material/PlayCircleFilled";
+import StopIcon from "@mui/icons-material/Stop";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 import CircleButton from "../../ui/button/CircleButton";
 import CountButtonGroup from "../../ui/button/CountButtonGroup";
 import CountDown from "../../ui/count/CountDown";
-import PlayCircleFilledIcon from "@mui/icons-material/PlayCircleFilled";
-import StopIcon from "@mui/icons-material/Stop";
-import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 type Props = {
     question: string[];
@@ -47,6 +47,11 @@ const QuestionScreen: FC<Props> = ({
         },
     ];
 
+    const nextQuestion = () => {
+        restart(time);
+        changeNowQuestion();
+    };
+
     return (
         <>
             <Typography css={styles.title} variant="h5">
@@ -76,10 +81,7 @@ const QuestionScreen: FC<Props> = ({
                 ) : (
                     <CircleButton
                         label="次の質問へ"
-                        onClick={() => {
-                            restart(time);
-                            changeNowQuestion();
-                        }}
+                        onClick={nextQuestion}
                         emotion={styles.circleButton}
                     />
                 )}

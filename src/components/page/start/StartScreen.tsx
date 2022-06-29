@@ -34,8 +34,8 @@ const StartScreen: FC<Props> = ({
     questionsStore,
 }) => {
     const { register, handleSubmit } = useForm<QuestionSettingType>();
-    const onSubmit = (data: QuestionSettingType) => {
-        saveQuestionSetting(data);
+    const onSubmit = (setting: QuestionSettingType) => {
+        saveQuestionSetting(setting);
         startButtonClick();
     };
 

@@ -62,7 +62,7 @@ const keyframe = {
     animation: keyframes`
         0%{
             opacity:0;
-            transform:scale(0.7);
+            transform:scale(0.9);
         }
         100%{
             opacity:1;

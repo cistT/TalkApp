@@ -19,15 +19,16 @@ const QuestionListItem: FC<Props> = ({
     deleteQuestion,
     displayDeleteQuestion = true,
 }) => {
+    const deleteItem = () => {
+        deleteQuestion(id);
+    };
+
     return (
         <>
             <div css={styles.itemGroup}>
                 <ListItem css={styles.item}>{question}</ListItem>
                 {displayDeleteQuestion && (
-                    <Button
-                        css={styles.button}
-                        onClick={() => deleteQuestion(id)}
-                    >
+                    <Button css={styles.button} onClick={deleteItem}>
                         <>
                             <DeleteIcon />
                             <div>削除</div>

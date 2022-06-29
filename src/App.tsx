@@ -27,6 +27,7 @@ import {
     AddQuestion,
     DeleteQuestion,
 } from "./components/functions/QuestionOperater";
+import ExtractQuestion from "./components/functions/ExtractQuestion";
 
 const App: FC = () => {
     const [user] = useAuthState(auth);
@@ -259,14 +260,10 @@ const App: FC = () => {
                     element={
                         <QuestionScreen
                             question={StartQuestion(
-                                questionsStore
-                                    .filter(
-                                        (newData) =>
-                                            newData.id ===
-                                            questionSetting.target
-                                    )[0]
-                                    ?.questions.map((data) => data.question) ??
-                                    [],
+                                ExtractQuestion(
+                                    questionsStore,
+                                    questionSetting.target
+                                ),
                                 questionSetting
                             )}
                             timeLime={questionSetting.timeLimit}

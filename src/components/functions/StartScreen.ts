@@ -5,10 +5,12 @@ type QuestionSetting = { question: string; value: string | number }[];
 export const selectQuestionNames = (
     questionStore: QuestionStore
 ): QuestionSetting => {
-    return questionStore
-        .filter((data) => data.questions.length > 0)
-        .map((data) => ({
-            question: data.name,
-            value: data.id,
+    const selectedQuestion = questionStore
+        .filter((folder) => folder.questions.length > 0)
+        .map((question) => ({
+            question: question.name,
+            value: question.id,
         }));
+
+    return selectedQuestion;
 };

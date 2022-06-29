@@ -1,9 +1,7 @@
 import { FC } from "react";
 import { useTimer } from "react-timer-hook";
 
-import { css } from "@emotion/react";
-
-import { useSpring, animated } from "react-spring";
+import { css, keyframes } from "@emotion/react";
 
 import { ButtonGroup, Typography } from "@material-ui/core";
 import PlayCircleFilledIcon from "@mui/icons-material/PlayCircleFilled";
@@ -24,11 +22,6 @@ const FreePlay: FC<Props> = ({ endButtonClick }) => {
     const { seconds, minutes, pause, resume, restart } = useTimer({
         expiryTimestamp: time,
     });
-    const animatedStyles = useSpring({
-        from: { opacity: 0 },
-        to: { opacity: 1 },
-        delay: 100,
-    });
 
     const buttons = [
         { label: "再開する", onClick: resume, icon: <PlayCircleFilledIcon /> },
@@ -41,7 +34,7 @@ const FreePlay: FC<Props> = ({ endButtonClick }) => {
     ];
 
     return (
-        <animated.div style={animatedStyles}>
+        <div css={styles.content}>
             <Typography css={styles.title} variant="h5">
                 質問
             </Typography>
@@ -64,11 +57,27 @@ const FreePlay: FC<Props> = ({ endButtonClick }) => {
                     onClick={endButtonClick}
                 />
             </ButtonGroup>
-        </animated.div>
+        </div>
     );
 };
 
+const keyframe = {
+    content: keyframes`
+        0%{
+            opacity:0;
+        }
+        100%{
+            opacity:1;
+        }
+    `,
+};
+
 const styles = {
+    content: css`
+        animation-name: ${keyframe.content};
+        animation-duration: 0.5s;
+        animation-timing-function: ease;
+    `,
     title: css`
         height: 5vh;
         margin: 5px 0 5px 30px;
