@@ -1,9 +1,10 @@
 import { FC } from "react";
-import { css } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
 
 import ListItem from "@mui/material/ListItem";
-import Divider from "@mui/material/Divider";
 import { Button } from "@material-ui/core";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Divider from "@mui/material/Divider";
 
 type Props = {
     id: string;
@@ -23,7 +24,15 @@ const QuestionListItem: FC<Props> = ({
             <div css={styles.itemGroup}>
                 <ListItem css={styles.item}>{question}</ListItem>
                 {displayDeleteQuestion && (
-                    <Button onClick={() => deleteQuestion(id)}>削除</Button>
+                    <Button
+                        css={styles.button}
+                        onClick={() => deleteQuestion(id)}
+                    >
+                        <>
+                            <DeleteIcon />
+                            <div>削除</div>
+                        </>
+                    </Button>
                 )}
             </div>
 
@@ -39,6 +48,12 @@ const styles = {
     `,
     item: css`
         width: 100vw;
+        font-size: 30px;
+    `,
+    button: css`
+        display: inline;
+        width: 10vw;
+        margin-right: 20px;
     `,
 };
 
