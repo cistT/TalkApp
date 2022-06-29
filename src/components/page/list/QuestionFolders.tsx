@@ -1,11 +1,10 @@
-import { FC, useReducer, useState } from "react";
+import { FC } from "react";
 
-import { css } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
 
 import List from "@mui/material/List";
 
 import QuestionFolder from "./item/QuestionFolder";
-import QuestionListItem from "./item/QuestionListItem";
 import SaveDialog from "../../ui/dialog/SaveDialog";
 import QuestionStore from "../../types/QuestionStoreType";
 import QuadrangleButton from "../../ui/button/QuadrangleButton";
@@ -15,10 +14,8 @@ type Props = {
     openMainScreen: () => void;
     createFolder: (newDataId: string, newdata: string) => void;
     deleteFolder: (folderId: string) => void;
-    addQuestion: (
-        dataId: string
-    ) => (newDataId: string, newData: string) => void;
-    deleteQuestion: (folderId: string) => (questionId: string) => void;
+    setQuestionListItem: (item: string) => void;
+    openItemList: () => void;
 };
 
 const QuestionFolders: FC<Props> = ({
@@ -26,88 +23,64 @@ const QuestionFolders: FC<Props> = ({
     openMainScreen,
     createFolder,
     deleteFolder,
-    addQuestion,
-    deleteQuestion,
+    setQuestionListItem,
+    openItemList,
 }) => {
-    const [isQuestionsList, dispatch] = useReducer(
-        (isQuestionsList) => !isQuestionsList,
-        false
-    );
-    const [questionsId, setQuestionsId] = useState<string>("");
-
-    const onClick = (data: string) => {
-        setQuestionsId(data);
-        dispatch();
+    const onClick = (folderId: string) => {
+        setQuestionListItem(folderId);
+        openItemList();
     };
-    return (
-        <>
-            {!isQuestionsList && (
-                <>
-                    <List>
-                        {questionsStore.map((data) => (
-                            <QuestionFolder
-                                id={data.id}
-                                name={data.name}
-                                deleteButton={data.id.length > 1}
-                                onClick={() => onClick(data.id)}
-                                deleteFolder={deleteFolder}
-                                key={data.id}
-                            />
-                        ))}
-                    </List>
-                    <QuadrangleButton
-                        label="戻る"
-                        variant="outlined"
-                        emotion={styles.button}
-                        onClick={openMainScreen}
-                    />
-                    <SaveDialog
-                        save={createFolder}
-                        title="フォルダをを作成する"
-                        inputLabel="フォルダ名を入力してください"
-                    />
-                </>
-            )}
-            {isQuestionsList && (
-                <>
-                    <List>
-                        {questionsStore
-                            .filter((data) => data.id === questionsId)[0]
-                            .questions.map((question) => (
-                                <QuestionListItem
-                                    id={question.id}
-                                    question={question.question}
-                                    displayDeleteQuestion={
-                                        questionsId.length > 1
-                                    }
-                                    deleteQuestion={deleteQuestion(questionsId)}
-                                    key={question.id}
-                                />
-                            ))}
-                    </List>
 
-                    {questionsId.length > 1 && (
-                        <SaveDialog
-                            title="質問を追加する"
-                            inputLabel="追加する質問を入力してください"
-                            save={addQuestion(questionsId)}
-                        />
-                    )}
-                    <QuadrangleButton
-                        label="戻る"
-                        variant="outlined"
-                        emotion={styles.button}
-                        onClick={dispatch}
+    return (
+        <div css={styles.content}>
+            <List>
+                {questionsStore.map((data) => (
+                    <QuestionFolder
+                        id={data.id}
+                        name={data.name}
+                        deleteButton={data.id.length > 1}
+                        onClick={() => onClick(data.id)}
+                        deleteFolder={deleteFolder}
+                        key={data.id}
                     />
-                </>
-            )}
-        </>
+                ))}
+            </List>
+            <QuadrangleButton
+                label="戻る"
+                variant="outlined"
+                emotion={styles.button}
+                onClick={openMainScreen}
+            />
+            <SaveDialog
+                save={createFolder}
+                title="フォルダをを作成する"
+                inputLabel="フォルダ名を入力してください"
+            />
+        </div>
     );
 };
 
 export default QuestionFolders;
 
+const keyframe = {
+    content: keyframes`
+        0%{
+            opacity:0;
+            transform:scale(0.5);
+        }
+        100%{
+            opacity:1;
+            transform:scale(1);
+        }
+    `,
+};
+
 const styles = {
+    content: css`
+        animation-name: ${keyframe.content};
+        animation-duration: 0.75s;
+        animation-timing-function: ease;
+    `,
     button: css`
         height: 60px;
         width: 50vw;
