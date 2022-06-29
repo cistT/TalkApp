@@ -5,6 +5,9 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import firebase from "firebase/compat/app";
 import { auth, db } from "./firebase";
 
+import QuestionSettingType from "./components/types/QuestionSettingType";
+import QuestionStore from "./components/types/QuestionStoreType";
+
 import Header from "./components/ui/header/Header";
 import MainScreen from "./components/page/index/MainScreen";
 import StartScreen from "./components/page/start/StartScreen";
@@ -12,17 +15,17 @@ import QuestionScreen from "./components/page/question/QuestionScreen";
 import FinishScreen from "./components/page/finish/FinishScreen";
 import FreePlay from "./components/page/free/FreePlay";
 import QuestionFolders from "./components/page/list/QuestionFolders";
-
-import QuestionSettingType from "./components/types/QuestionSettingType";
-import QuestionStore from "./components/types/QuestionStoreType";
+import QuestionItemScreen from "./components/page/item/QuestionItemScreen";
 
 import {
     deleteFireStore,
     setFireStore,
 } from "./components/functions/FireStoreOperate";
 import StartQuestion from "./components/functions/StartQuestion";
-import DeleteQuestion from "./components/functions/DeleteQuestion";
-import QuestionItemScreen from "./components/page/item/QuestionItemScreen";
+import {
+    AddQuestion,
+    DeleteQuestion,
+} from "./components/functions/QuestionOperater";
 
 const App: FC = () => {
     const [user] = useAuthState(auth);
@@ -99,28 +102,21 @@ const App: FC = () => {
         setListItem(folderId);
     };
 
-    const addQuestion = (dataId: string) => {
-        return (newDataId: string, newData: string) => {
+    const addQuestion = (folderId: string) => {
+        return (newQuestionId: string, newQuestion: string) => {
             setQuestionsStore((questionsStore) =>
                 questionsStore.map((question) => {
-                    if (question.id === dataId) {
-                        return {
-                            ...question,
-                            questions: [
-                                ...question.questions,
-                                { id: newDataId, question: newData },
-                            ],
-                        };
-                    }
-                    return question;
+                    return question.id === folderId
+                        ? AddQuestion(question, newQuestionId, newQuestion)
+                        : question;
                 })
             );
 
             user?.uid &&
-                setFireStore("question", newDataId, {
-                    name: newData,
-                    questionId: newDataId,
-                    folderId: dataId,
+                setFireStore("question", newQuestionId, {
+                    name: newQuestion,
+                    questionId: newQuestionId,
+                    folderId: folderId,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                     uid: user.uid,
                 });
