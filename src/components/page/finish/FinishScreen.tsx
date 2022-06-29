@@ -65,7 +65,7 @@ const styles = {
         font-size: clamp(16px, 8vw, 5rem);
         font-family: "Kosugi Maru", sans-serif;
         animation-name: ${keyframe.title};
-        animation-duration: 1.5s;
+        animation-duration: 0.5s;
         animation-timing-function: ease;
     `,
     explanation: css`
@@ -77,14 +77,14 @@ const styles = {
         margin: 10px auto;
         font-family: "Kosugi Maru", sans-serif;
         animation-name: ${keyframe.otherTitle};
-        animation-duration: 3s;
+        animation-duration: 1s;
         animation-timing-function: ease;
     `,
     buttonGroup: css`
         display: flex;
         justify-content: space-around;
         animation-name: ${keyframe.otherTitle};
-        animation-duration: 2s;
+        animation-duration: 1s;
         animation-timing-function: ease;
     `,
     circleButton: css`
