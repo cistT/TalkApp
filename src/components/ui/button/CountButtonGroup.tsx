@@ -2,13 +2,14 @@ import { FC } from "react";
 
 import { css } from "@emotion/react";
 
-import { ButtonGroup } from "@material-ui/core";
+import { ButtonGroup, SvgIconProps } from "@material-ui/core";
 
 import Quadrangle from "./QuadrangleButton";
 
 type Props = {
     label: string;
     onClick: () => void;
+    icon?: React.HTMLProps<SvgIconProps> | undefined;
 }[];
 
 const CountButtonGroup: FC<{ buttons: Props }> = ({ buttons }) => {
@@ -19,6 +20,7 @@ const CountButtonGroup: FC<{ buttons: Props }> = ({ buttons }) => {
                     key={`${button.label + i}`}
                     emotion={styles.quadrangle}
                     label={button.label}
+                    buttonIcon={button.icon}
                     onClick={button.onClick}
                 />
             ))}
