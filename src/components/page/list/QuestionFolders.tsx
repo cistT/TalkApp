@@ -68,7 +68,7 @@ const keyframe = {
     content: keyframes`
         0%{
             opacity:0;
-            transform:scale(0.5);
+            transform:translateY(300px)
         }
         100%{
             opacity:1;
